@@ -456,6 +456,11 @@ ninja.data = [{
           description: "with background image",
           section: "Projects",handler: () => {
               window.location.href = "/projects/1_project/";
+            },},{id: "projects-visual-slam-navigation-stack",
+          title: 'Visual SLAM Navigation Stack',
+          description: "Real-time autonomous navigation for indoor robots using ZED 2i and RGB-D sensing",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/1_slam_navigation/";
             },},{id: "projects-project-2",
           title: 'project 2',
           description: "a project with a background image and giscus comments",
