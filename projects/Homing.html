@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autonomous Homing Robot — Neha Navarkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A; --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(247,245,240,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: end; }
+    .project-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-summary { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 520px; }
+    .project-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; }
+    .section { margin-bottom: 4rem; }
+    .section h2 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .section h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.75rem; }
+    .section p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; max-width: 680px; }
+    .section ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-width: 680px; }
+    .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+    .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+    .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .video-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 3rem; }
+    .video-placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+    .video-placeholder .icon { font-size: 3rem; opacity: 0.3; }
+    .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+    .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .arch-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .arch-card p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .result-card { background: var(--accent2); color: #fff; padding: 1.75rem; text-align: center; }
+    .result-num { font-family: var(--serif); font-size: 2.5rem; line-height: 1; margin-bottom: 0.25rem; }
+    .result-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 1.5rem; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.75rem; }
+    .info-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-card ul li { display: flex; gap: 0.75rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .info-card ul li::before { content: '·'; color: var(--accent); }
+    .phase-list { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .phase-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; align-items: start; }
+    .phase-num { font-family: var(--serif); font-size: 2rem; color: var(--accent); line-height: 1; }
+    .phase-content h4 { font-weight: 600; color: var(--ink); margin-bottom: 0.35rem; }
+    .phase-content p { font-size: 0.88rem; color: var(--muted); font-weight: 300; margin: 0; max-width: none; }
+    .cost-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; font-size: 0.88rem; }
+    .cost-table th { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.75rem 1rem; border-bottom: 2px solid var(--line); }
+    .cost-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); color: var(--muted); font-weight: 300; }
+    .cost-table tr:last-child td { font-weight: 500; color: var(--ink); border-top: 2px solid var(--line); border-bottom: none; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .team-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .team-card h4 { font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+    .team-card p { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; }
+    code { font-family: var(--mono); font-size: 0.82rem; background: var(--line); padding: 0.1rem 0.4rem; border-radius: 2px; color: var(--ink); }
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .arch-grid, .result-grid, .two-col, .team-grid { grid-template-columns: 1fr; }
+      .phase-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Neha Navarkar</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <p class="project-label">Project 04 · Mechatronics ROB-GY 5103 · NYU Tandon · Dec 2024</p>
+      <h1 class="project-title">Autonomous Homing Robot<br/>with Qi Wireless Charging<br/>& Ultrasonic Navigation</h1>
+      <p class="project-summary">A mobile robot that autonomously locates its charging station using a 40kHz ultrasonic beacon, navigates toward it, then docks precisely via IR line-following — charging wirelessly via Qi with no physical connector alignment required.</p>
+      <div class="btns">
+        <a href="https://github.com/nehanavarkar" target="_blank" class="btn btn-primary">View on GitHub</a>
+        <a href="../index.html#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="project-meta">
+      <div class="meta-item">
+        <label>Course</label>
+        <p>Mechatronics ROB-GY 5103</p>
+      </div>
+      <div class="meta-item">
+        <label>Team</label>
+        <p>Manan Anjara, Neha Navarkar, Nicholas Wojno</p>
+      </div>
+      <div class="meta-item">
+        <label>Stack</label>
+        <div class="tags">
+          <span class="tag">Basic Stamp 2</span><span class="tag">PBASIC</span>
+          <span class="tag">Qi Wireless</span><span class="tag">Ultrasonic</span>
+          <span class="tag">IR Sensors</span><span class="tag">555 Timer</span>
+          <span class="tag">LM393 Op-Amp</span><span class="tag">ADC0831</span>
+          <span class="tag">3D Printing</span><span class="tag">Laser Cutting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <h2>Demo</h2>
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="icon">▶</div>
+          <p>Add your demo video here<br/>Replace with YouTube embed</p>
+        </div>
+      </div>
+      <p class="video-caption">Robot autonomously locating and docking with its charging station</p>
+    </div>
+
+    <div class="section">
+      <h2>Overview</h2>
+      <p>Robot vacuums like Roomba dock using IR sensors — but IR has limited range and is susceptible to interference. This project explored ultrasonic sensing as an alternative: longer range, works in low light, less vulnerable to stray signals.</p>
+      <p>The system uses a 40kHz ultrasonic beacon on the base station for coarse homing, then transitions to IR line-following for precise docking over a Qi wireless charging pad. No physical connector alignment needed — the robot just needs to get close enough.</p>
+    </div>
+
+    <div class="section">
+      <h2>Three-Phase Operation</h2>
+      <div class="phase-list">
+        <div class="phase-item">
+          <div class="phase-num">01</div>
+          <div class="phase-content">
+            <h4>Station Search</h4>
+            <p>User presses button to activate. Robot spins while scanning for the 40kHz ultrasonic beacon. A red LED provides real-time feedback when signal is detected. If no signal found within 60 seconds (counter = 60,000 iterations), robot returns to idle. Once signal is confirmed above ADC threshold (100/255), robot moves toward it continuously.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">02</div>
+          <div class="phase-content">
+            <h4>Line Following → Docking</h4>
+            <p>Left IR sensor detects black tape perimeter → robot transitions from ultrasonic to IR line-follow mode. Advances slightly, turns left slightly (prevents right IR false positives from the guide line). Line follows until right IR sensor crosses the perpendicular finish line at the Qi pad. Docking confirmed.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">03</div>
+          <div class="phase-content">
+            <h4>Idle / Charging</h4>
+            <p>Motors halt. LCD displays "Dock Found". Green LED blinks on top to indicate active Qi charging. Battery percentage calculated continuously via ADC using <code>100×((DO−153)/41)</code> and displayed on LCD. Button press at any phase pauses the robot and resumes from where it left off.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Hardware Architecture</h2>
+
+      <h3>Robot</h3>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h4>Ultrasonic Receiver + LM393 Amp</h4>
+          <p>Raw ultrasonic receiver output too weak for BS2's 1.4V input threshold. LM393 op-amp amplifies signal, ADC0831 converts it. Signal flag set when reading exceeds 100/255.</p>
+        </div>
+        <div class="arch-card">
+          <h4>IR Sensors (×2)</h4>
+          <p>Left: detects black tape perimeter to trigger mode transition. Right: detects finish line at Qi pad to confirm docking. Robot biases slightly left to prevent right IR false positives.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Qi Charging Circuit</h4>
+          <p>Receiver mounted on laser-cut wood block at bottom of robot to minimize height gap. BMS 2S board safely charges 7.4V LiPo with cell balancing. ADC monitors battery voltage via voltage divider.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Battery Monitoring</h4>
+          <p>7.4V battery → voltage divider → 3.7V → ADC with 5V reference → ~194 count at full charge. Formula: <code>100×((DO−153)/41)</code> = battery %. Displayed on LCD.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Chassis Modifications</h4>
+          <p>Parallax Boe-Bot with 3D-printed angled ultrasonic receiver support (prevents signal overlap), laser-cut LCD platform, raised Qi receiver block, and custom wooden power switch.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Drive System</h4>
+          <p>Two Parallax continuous rotation servos. PULSOUT values: Stop=765, LFwd=773/RFwd=756, LBack=756/RBack=773. Differential drive for all turning modes.</p>
+        </div>
+      </div>
+
+      <h3>Base Station</h3>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>555 Timer Ultrasonic Beacon</h4>
+          <ul>
+            <li>NE555P in astable mode drives ultrasonic transducer</li>
+            <li>R1 = R2 = 12kΩ, C = 1µF</li>
+            <li>t_low = 8.316ms · t_high = 16.632ms</li>
+            <li>f = 1/(8.316+16.632)ms = <strong>40kHz</strong></li>
+            <li>Duty cycle = 66%</li>
+            <li>40kHz chosen for best receiver sensitivity in testing</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Black Tape Guidance System</h4>
+          <ul>
+            <li>Tape forms perimeter around ultrasonic transducer</li>
+            <li>Qi pad always positioned left of robot's approach angle</li>
+            <li>Tape line extends from perimeter to Qi pad</li>
+            <li>Perpendicular finish line crosses at Qi pad location</li>
+            <li>Right IR sensor crosses finish line → dock confirmed</li>
+            <li>Eliminates ambiguity of barrier-wall approach</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Key Results</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-num">~95%</div>
+          <div class="result-label">Docking success rate</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">30cm</div>
+          <div class="result-label">Reliable ultrasonic range</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">4.7×</div>
+          <div class="result-label">Cost reduction with ESP32C6</div>
+        </div>
+      </div>
+
+      <h3>What Worked</h3>
+      <ul>
+        <li>Ultrasonic + IR two-stage sensing was reliable for the full docking sequence</li>
+        <li>Qi wireless charging completely eliminated connector alignment problems</li>
+        <li>Works in total darkness — ultrasonic is light-independent</li>
+        <li>Clear state machine made debugging straightforward during testing</li>
+      </ul>
+
+      <h3>Limitations & Future Work</h3>
+      <ul>
+        <li>Signal bounce beyond ~30cm caused inconsistent detection — monostable 555 debounce circuit would help</li>
+        <li>No obstacle avoidance — bumpers or additional scanning sensor needed</li>
+        <li>Poor terrain traversal — higher traction wheels or increased motor power recommended</li>
+        <li>Replacing BS2 with ESP32C6 drops total cost from $321 → $68 and adds Wi-Fi/BLE</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Bill of Materials</h2>
+      <table class="cost-table">
+        <thead>
+          <tr><th>#</th><th>Component</th><th>Cost</th><th>With BS2</th><th>With ESP32C6</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Ultrasonic Transducer</td><td>$1.93</td><td>$1.93</td><td>$1.93</td></tr>
+          <tr><td>2</td><td>Qi Charging Circuit</td><td>$7.95</td><td>$7.95</td><td>$7.95</td></tr>
+          <tr><td>3</td><td>IR LED</td><td>$0.249</td><td>$0.249</td><td>$0.249</td></tr>
+          <tr><td>4</td><td>LCD Display</td><td>—</td><td>$24.95</td><td>$3.12</td></tr>
+          <tr><td>5</td><td>Battery (7.4V LiPo)</td><td>$10.99</td><td>$10.99</td><td>$10.99</td></tr>
+          <tr><td>6</td><td>BMS 2S</td><td>$3.90</td><td>$3.90</td><td>$3.90</td></tr>
+          <tr><td>7</td><td>Microcontroller + Kit</td><td>—</td><td>$249.95</td><td>$29.95</td></tr>
+          <tr><td>8</td><td>ADC Chip</td><td>$12.00</td><td>$12.00</td><td>$0 (built-in)</td></tr>
+          <tr><td>9</td><td>Miscellaneous</td><td>$10.00</td><td>$10.00</td><td>$10.00</td></tr>
+          <tr><td></td><td><strong>Total</strong></td><td></td><td><strong>$321.92</strong></td><td><strong>$68.09</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <h4>Manan Anjara</h4>
+          <p>Circuit Design · Base Station</p>
+        </div>
+        <div class="team-card">
+          <h4>Neha Navarkar</h4>
+          <p>Chassis · Hardware Integration</p>
+        </div>
+        <div class="team-card">
+          <h4>Nicholas Wojno</h4>
+          <p>Sensing · Signal Processing</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>What I Learned</h2>
+      <ul>
+        <li>Multi-stage sensing pipelines are more robust than relying on a single sensor for the full task</li>
+        <li>Op-amp signal conditioning is essential when sensor output voltage falls below microcontroller logic thresholds</li>
+        <li>Embedded state machines need explicit idle/pause states — real users will always find edge cases you didn't design for</li>
+        <li>Qi coil height tolerance is tighter than expected — the wood spacer block was a critical mechanical fix</li>
+        <li>Systematic hardware debugging (one subsystem at a time) saved significant time vs. debugging the full integrated system</li>
+        <li>Component selection has enormous cost impact: ESP32C6 instead of BS2 = 4.7× cheaper with better capability</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Neha Navarkar</p>
+    <p><a href="../index.html" style="color:var(--muted);text-decoration:none;">nehanavarkar.github.io</a></p>
+  </footer>
+</body>
+</html>
