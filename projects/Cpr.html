@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portable CPR Machine — Neha Navarkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A; --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(247,245,240,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: end; }
+    .project-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-summary { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 520px; }
+    .project-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; }
+    .section { margin-bottom: 4rem; }
+    .section h2 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .section h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.75rem; }
+    .section p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; max-width: 680px; }
+    .section ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-width: 680px; }
+    .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+    .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+    .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .video-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 3rem; }
+    .video-placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+    .video-placeholder .icon { font-size: 3rem; opacity: 0.3; }
+    .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+    .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .arch-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .arch-card p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 1.5rem; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.75rem; }
+    .info-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-card ul li { display: flex; gap: 0.75rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .info-card ul li::before { content: '·'; color: var(--accent); }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .result-card { background: var(--accent2); color: #fff; padding: 1.75rem; text-align: center; }
+    .result-num { font-family: var(--serif); font-size: 2rem; line-height: 1; margin-bottom: 0.25rem; }
+    .result-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .phase-list { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .phase-item { display: grid; grid-template-columns: 60px 1fr; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; align-items: start; }
+    .phase-num { font-family: var(--serif); font-size: 2rem; color: var(--accent); line-height: 1; }
+    .phase-content h4 { font-weight: 600; color: var(--ink); margin-bottom: 0.35rem; }
+    .phase-content p { font-size: 0.88rem; color: var(--muted); font-weight: 300; margin: 0; max-width: none; }
+    .software-flow { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .flow-item { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; display: grid; grid-template-columns: 180px 1fr; gap: 2rem; align-items: start; }
+    .flow-file { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; padding-top: 0.1rem; }
+    .flow-desc h4 { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.35rem; }
+    .flow-desc p { font-size: 0.85rem; color: var(--muted); font-weight: 300; margin: 0; }
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .team-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .team-card h4 { font-weight: 600; color: var(--ink); margin-bottom: 0.25rem; }
+    .team-card p { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; }
+    code { font-family: var(--mono); font-size: 0.82rem; background: var(--line); padding: 0.1rem 0.4rem; border-radius: 2px; color: var(--ink); }
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .arch-grid, .two-col, .result-grid, .team-grid { grid-template-columns: 1fr; }
+      .phase-item, .flow-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Neha Navarkar</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <p class="project-label">Project 02 · Advanced Mechatronics · NYU Tandon · May 2025</p>
+      <h1 class="project-title">Portable Automated<br/>CPR Machine</h1>
+      <p class="project-summary">A portable, intelligent automated CPR device delivering consistent AHA-compliant chest compressions via a slider-crank mechanism driven by a CubeMars AK60-6 FOC motor — with real-time chest stiffness sensing, spontaneous breathing detection, vision-guided placement, and a Kivy touchscreen interface. 217 design iterations. Tested on a Prestan manikin.</p>
+      <div class="btns">
+        <a href="https://github.com/nehanavarkar" target="_blank" class="btn btn-primary">View on GitHub</a>
+        <a href="../index.html#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="project-meta">
+      <div class="meta-item">
+        <label>Course</label>
+        <p>Advanced Mechatronics</p>
+      </div>
+      <div class="meta-item">
+        <label>Team</label>
+        <p>Manan Anjara, Neha Navarkar, Nicholas Wojno</p>
+      </div>
+      <div class="meta-item">
+        <label>Stack</label>
+        <div class="tags">
+          <span class="tag">Raspberry Pi 5</span>
+          <span class="tag">AK60-6 FOC Motor</span>
+          <span class="tag">Python</span>
+          <span class="tag">C</span>
+          <span class="tag">Kivy</span>
+          <span class="tag">ZeroMQ</span>
+          <span class="tag">MQTT</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">PiCamera3</span>
+          <span class="tag">UART</span>
+          <span class="tag">FDM 3D Printing</span>
+          <span class="tag">22.4V LiPo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DEMO -->
+    <div class="section">
+      <h2>Demo</h2>
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="icon">▶</div>
+          <p>Add your demo video here<br/>Replace with YouTube embed</p>
+        </div>
+      </div>
+      <p class="video-caption">CPR machine performing compressions on a Prestan manikin with stiffness detection and breathing monitoring active</p>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <h2>Overview</h2>
+      <p>Manual CPR degrades in quality within 1–2 minutes due to rescuer fatigue. Existing automated devices are bulky, expensive, and not truly portable. This project set out to fix all three problems.</p>
+      <p>The result is a 3D-printed, FDM-manufactured portable CPR machine with a slider-crank compression mechanism, a FOC motor with real-time current feedback, a camera-guided placement system, and a touchscreen Kivy interface — all controlled by a Raspberry Pi 5 running a distributed software stack in C and Python.</p>
+      <p>The key differentiator: the AK60-6 FOC motor's current feedback lets the system infer chest stiffness and detect spontaneous breathing — adapting CPR delivery in real time rather than just running a fixed cycle.</p>
+    </div>
+
+    <!-- KEY METRICS -->
+    <div class="section">
+      <h2>Key Numbers</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-num">217</div>
+          <div class="result-label">Design iterations</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">5 min</div>
+          <div class="result-label">Manikin endurance test</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">2</div>
+          <div class="result-label">Patient profiles (adult/kid)</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">RT</div>
+          <div class="result-label">Breathing detection via FOC current</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MECHANICAL DESIGN -->
+    <div class="section">
+      <h2>Mechanical Design</h2>
+      <p>The machine is a three-part FDM 3D-printed assembly, each component designed with a specific structural and functional role. The design went through 217 revisions — every iteration driven by real testing feedback.</p>
+
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h4>Main Body — 80% Infill</h4>
+          <p>Structural backbone housing the AK60-6 motor, slider-crank mechanism, and electronics hub. Internal compartmentalization isolates mechanics from electronics, concentrates failure points in one maintainable module.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Top Housing — 20% Infill</h4>
+          <p>Lightweight enclosure for the 5-inch LCD touch display. Reduced infill minimizes weight while maintaining enough rigidity to protect the display under operational vibration.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Back Plate — 20% Infill</h4>
+          <p>Encloses the rear assembly and mounts the emergency stop button for immediate accessible override. Designed for tool-free motor access.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Slider-Crank Mechanism</h4>
+          <p>Converts AK60-6 rotary motion to linear chest compressions. 25mm linear bearings reduce friction, wear, and motor energy draw — directly improving compression consistency and component longevity.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Manufacturing</h4>
+          <p>All parts manufactured via FDM 3D printing for rapid design iteration. 217 part revisions over the project — each addressing issues found in testing or improving fit, performance, and manufacturability.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Compression Pad</h4>
+          <p>End-effector mounted on the slider for direct patient contact. Designed to distribute force across the sternum per AHA guidelines (~100 compressions/min, ~2-inch depth).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARDWARE -->
+    <div class="section">
+      <h2>Hardware Architecture</h2>
+
+      <h3>Core Processing & Control</h3>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>Raspberry Pi 5</h4>
+          <ul>
+            <li>Central processing unit running all operational logic</li>
+            <li>Manages touchscreen UI, camera, motor UART, and ZMQ IPC</li>
+            <li>Runs C motor control code and Python GUI concurrently</li>
+            <li>Powered via 5V/5A DC-DC converter from 22.4V LiPo</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>CubeMars AK60-6 FOC Motor</h4>
+          <ul>
+            <li>Field-Oriented Control for precise torque and speed</li>
+            <li>Real-time Iq phase current feedback via UART</li>
+            <li>Current integration (AmpSeconds) detects chest stiffness and breathing</li>
+            <li>UART at 115200 baud — custom frame: 0xAA header, CRC-16-Kermit, 0xBB tail</li>
+            <li>Logic level shifter required: Pi (3.3V) → Motor controller (5V)</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Power System</h3>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>22.4V LiPo Battery</h4>
+          <ul>
+            <li>High energy density for compact portable power</li>
+            <li>Powers motor directly at 22.4V</li>
+            <li>5V/5A DC-DC converter steps down for Pi and electronics</li>
+            <li>Custom PDB manages distribution to all subsystems</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Safety Systems</h4>
+          <ul>
+            <li>Emergency push button on back plate → immediate motor cutoff</li>
+            <li>20A fuse on motor circuit → overcurrent protection</li>
+            <li>12mm LED toggle switch as main power indicator</li>
+            <li>Appropriate gauge silicon wiring throughout for current capacity and flexibility</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>User Interface & Sensing</h3>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>5-inch Touch Display</h4>
+          <ul>
+            <li>Primary HMI running Kivy application</li>
+            <li>Age profile selection (adult/kid)</li>
+            <li>Real-time stiffness and breathing status display</li>
+            <li>Camera-guided placement feedback with directional arrows</li>
+            <li>Confirms breathing detection before halting compressions</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Raspberry Pi Camera 3 Wide</h4>
+          <ul>
+            <li>Wide-angle lens for expanded field of view</li>
+            <li>One-time shoulder calibration via Position_capture.py</li>
+            <li>Live OpenCV template matching for real-time shoulder detection</li>
+            <li>Vertical feedback: GOOD / UP / DOWN guides operator placement</li>
+            <li>Auto-advances to next screen after 1 second of confirmed "GOOD" placement</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATION PHASES -->
+    <div class="section">
+      <h2>CPR Operation Sequence</h2>
+      <div class="phase-list">
+        <div class="phase-item">
+          <div class="phase-num">01</div>
+          <div class="phase-content">
+            <h4>Placement & Orientation</h4>
+            <p>Camera guides operator to position device correctly over the patient's sternum. OpenCV template matching on live feed compares detected shoulder positions to calibration data. Arrow widget shows UP/DOWN/GOOD. Auto-advances when placement is confirmed for 1 second.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">02</div>
+          <div class="phase-content">
+            <h4>Profile Selection & Warm-Up</h4>
+            <p>Operator selects Adult or Kid profile via touchscreen. Motor executes <code>warmup_phase()</code> — constant RPM run to bring system to operating temperature and verify mechanism function before patient contact.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">03</div>
+          <div class="phase-content">
+            <h4>Stiffness Calibration</h4>
+            <p><code>calibration_cycle()</code> performs slow oscillation and integrates motor current (AmpSeconds). If accumulated AmpSeconds exceed <code>AMPSEC_THRESHOLD</code>, chest is classified as "Stiff" — ERPM is adjusted accordingly (<code>ERPM_MAX_STIFF</code> vs <code>ERPM_MAX_NORMAL</code>). Status sent to GUI via ZMQ.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">04</div>
+          <div class="phase-content">
+            <h4>CPR Cycles</h4>
+            <p><code>oscillate_cycles()</code> drives motor between <code>POS_CENTER_DEG ± POS_BAND_DEG</code> with speed modulated by distance from center. After each set of cycles, <code>hold_and_measure()</code> holds the motor at zero RPM for <code>HOLD_TIME_US</code> while integrating current for breathing detection.</p>
+          </div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">05</div>
+          <div class="phase-content">
+            <h4>Breathing Detection & Confirmation</h4>
+            <p>If <code>holdAmpSec</code> exceeds threshold during hold phase, system signals "breathing" to GUI. Operator confirms or overrides via touchscreen. If confirmed, motor enters permanent hold state. If overridden, CPR cycles resume.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOFTWARE -->
+    <div class="section">
+      <h2>Software Architecture</h2>
+      <p>Distributed multi-process system using ZeroMQ for inter-process communication and MQTT for external telemetry. C handles real-time motor control; Python handles GUI, vision, and data forwarding.</p>
+
+      <div class="software-flow">
+        <div class="flow-item">
+          <div class="flow-file">Main_code.c</div>
+          <div class="flow-desc">
+            <h4>Motor Control & State Machine</h4>
+            <p>Core C program on RPi5. UART motor comms at 115200 baud with custom CRC-16-Kermit frames. State machine: Init → Warmup → Profile Select → Placement → Stiffness Cal → CPR Cycles → Breathing Detect → Hold. Publishes telemetry (deg, Iq) via ZMQ PUB on port 5556. Receives GUI commands via ZMQ SUB on port 5561.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-file">Touchdisplay.py</div>
+          <div class="flow-desc">
+            <h4>Kivy GUI + Camera Placement</h4>
+            <p>Kivy ScreenManager navigates between: orientation/placement, age selection, stiffness display, CPR phase, breathing confirmation. OrientationScreen uses PiCamera2 + OpenCV template matching on shoulder_coords.json calibration. Arrow widget guides placement in real time. ZMQ PUB/SUB bridges with Main_code.c.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-file">Position_capture.py</div>
+          <div class="flow-desc">
+            <h4>Camera Calibration Tool</h4>
+            <p>One-time setup script. Captures a frame, user clicks left/right shoulders, coordinates saved to shoulder_coords.json with calibration image. Used by Touchdisplay.py's OrientationScreen to compute target chest Y position and crop shoulder templates for live matching.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-file">Pos_cur_Monitoring.py</div>
+          <div class="flow-desc">
+            <h4>Real-Time Diagnostic Plot</h4>
+            <p>Matplotlib + ZMQ SUB on port 5556. Receives raw telemetry from Main_code.c. Dual scrolling subplots: motor position (degrees) and smoothed Iq current (Amps) with moving average buffer. Standalone diagnostic tool for tuning control parameters.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-file">Send_to_arduino.py</div>
+          <div class="flow-desc">
+            <h4>ZMQ → MQTT Bridge</h4>
+            <p>Subscribes to ZMQ status stream from Main_code.c. Wraps each status in a JSON envelope with heartbeat flag, machine ID (CPR-03), and address. Publishes to MQTT broker at localhost:1883 on topic home/pi/data. Enables remote monitoring and Arduino integration.</p>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-file">gui_monitor.py</div>
+          <div class="flow-desc">
+            <h4>Remote Monitor GUI</h4>
+            <p>customtkinter desktop app reading serial JSON from the machine. Displays: operational stage, breathing status (green/red dot), patient profile, chest stiffness, machine ID. Google Static Maps integration shows CPR machine location — clickable to open full Google Maps view.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTING -->
+    <div class="section">
+      <h2>Testing & Validation</h2>
+
+      <h3>Phase 1 — Pillow Test</h3>
+      <p>Initial mechanical validation on a household pillow confirmed the compression mechanism, motor control, and 3D-printed structural integrity under load. Quickly identified that a pillow cannot simulate human chest compliance, chest stiffness sensing, or breathing detection.</p>
+
+      <h3>Phase 2 — Prestan Manikin</h3>
+      <p>Tested on a Prestan CPR training manikin — specifically designed to simulate adult chest compliance and anatomical landmarks. Adult profile selected, continuous CPR run for a 5-minute endurance test.</p>
+      <ul>
+        <li>Machine successfully delivered compressions at target depth and rate throughout the test</li>
+        <li>FOC current feedback enabled accurate stiffness classification on the manikin's realistic compliance</li>
+        <li>At the 5-minute mark: shaft failure due to material mismatch — metal ball bearing + plastic shaft caused fracture under cyclical load</li>
+        <li>Key finding: shaft material must be upgraded to metal for production — currently being addressed in next iteration</li>
+      </ul>
+    </div>
+
+    <!-- WHAT I LEARNED -->
+    <div class="section">
+      <h2>What I Learned</h2>
+      <ul>
+        <li>Distributed software architecture with ZMQ IPC is the right approach for separating real-time motor control (C) from UI and vision (Python) — mixing them in one process causes timing issues</li>
+        <li>FOC current integration as a sensing modality is genuinely powerful — detecting chest stiffness and breathing from current alone, with no additional sensors, is elegant engineering</li>
+        <li>UART protocol debugging with a logic analyzer saved significant time — the AK60-6 documentation had discrepancies that only the analyzer revealed</li>
+        <li>3D printing infill % is a real design variable — 80% vs 20% isn't just weight, it determines whether a part survives cyclical load</li>
+        <li>217 revisions taught me that iterative design with short test cycles beats trying to get it right the first time</li>
+        <li>Material selection at joints under cyclic load is critical — the metal/plastic shaft interface failure at 5 minutes was entirely predictable in hindsight</li>
+      </ul>
+    </div>
+
+    <!-- TEAM -->
+    <div class="section">
+      <h2>Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <h4>Manan Anjara</h4>
+          <p>Motor Control · C Software · Electronics</p>
+        </div>
+        <div class="team-card">
+          <h4>Neha Navarkar</h4>
+          <p>Mechanical Design · 3D Printing · Integration</p>
+        </div>
+        <div class="team-card">
+          <h4>Nicholas Wojno</h4>
+          <p>Software Architecture · Vision · MQTT</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Neha Navarkar</p>
+    <p><a href="../index.html" style="color:var(--muted);text-decoration:none;">nehanavarkar.github.io</a></p>
+  </footer>
+</body>
+</html>
