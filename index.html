@@ -777,8 +777,8 @@
       <h2 class="section-title">Projects</h2>
     </div>
     <div class="projects-grid">
-      <div class="project-card reveal">
-        <div class="project-num">Project 01</div>
+      <a href="projects/slam.html" class="project-card reveal" style="text-decoration:none;color:inherit">
+        <div class="project-num">Project 01 →</div>
         <h3 class="project-name">Visual SLAM Navigation Stack</h3>
         <p class="project-desc">Real-time autonomous navigation for indoor robots — 3D mapping, A*/D*-Lite planning, and pure-pursuit path following running at 30Hz on Jetson hardware.</p>
         <div class="project-tags">
@@ -788,9 +788,9 @@
           <span class="project-tag">SLAM</span>
           <span class="project-tag">Jetson</span>
         </div>
-      </div>
-      <div class="project-card reveal">
-        <div class="project-num">Project 02</div>
+      </a>
+      <a href="projects/cpr.html" class="project-card reveal" style="text-decoration:none;color:inherit">
+        <div class="project-num">Project 02 →</div>
         <h3 class="project-name">CPR Training Robot</h3>
         <p class="project-desc">AHA-compliant CPR training machine using FOC-controlled BLDC motor with real-time torque feedback. Achieved compression depth accuracy within 5% of target.</p>
         <div class="project-tags">
@@ -799,9 +799,9 @@
           <span class="project-tag">AK60-6</span>
           <span class="project-tag">Python</span>
         </div>
-      </div>
-      <div class="project-card reveal">
-        <div class="project-num">Project 03</div>
+      </a>
+      <a href="projects/resq.html" class="project-card reveal" style="text-decoration:none;color:inherit">
+        <div class="project-num">Project 03 →</div>
         <h3 class="project-name">ResQ — Swarm Rescue Platform</h3>
         <p class="project-desc">Three-robot ESP32 swarm with Wi-Fi coordination and sensor fusion for hazard and obstacle detection in mock disaster environments.</p>
         <div class="project-tags">
@@ -810,9 +810,9 @@
           <span class="project-tag">Embedded C</span>
           <span class="project-tag">Wi-Fi</span>
         </div>
-      </div>
-      <div class="project-card reveal">
-        <div class="project-num">Project 04</div>
+      </a>
+      <a href="projects/homing.html" class="project-card reveal" style="text-decoration:none;color:inherit">
+        <div class="project-num">Project 04 →</div>
         <h3 class="project-name">Autonomous Homing Robot</h3>
         <p class="project-desc">Self-docking mobile robot with Qi wireless charging, ultrasonic homing (3m range), and IR line following. ~95% docking success across multi-room environments.</p>
         <div class="project-tags">
@@ -821,7 +821,7 @@
           <span class="project-tag">IR Sensors</span>
           <span class="project-tag">Embedded C</span>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -835,7 +835,7 @@
       <div>
         <div class="pub-label">arXiv · February 2026</div>
         <h3 class="pub-title">YOR: Your Own Mobile Manipulator<br/>for Generalizable Robotics</h3>
-        <p class="pub-meta">Navarkar et al. · arXiv:2602.11150</p>
+        <p class="pub-meta">Manan H Anjaria, Mehmet Enes Erciyes, Vedant Ghatnekar, <strong style="color:#fff">Neha Navarkar</strong>, Haritheja Etukuru, Xiaole Jiang, Kanad Patel, Dhawal Kabra, Nicholas Wojno, Radhika Ajay Prayage, Soumith Chintala, Lerrel Pinto, Nur Muhammad Mahi Shafiullah, Zichen Jeff Cui · arXiv:2602.11150</p>
       </div>
       <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="pub-link">
         View Paper →
@@ -876,11 +876,11 @@
         <h2 class="section-title">Let's Talk</h2>
       </div>
       <p>I'm actively looking for full-time roles in robotics software engineering. If you're building something interesting, reach out.</p>
-      <a href="mailto:nehanavarkar@nyu.edu" class="btn btn-primary">nehanavarkar@nyu.edu</a>
+      <a href="/cdn-cgi/l/email-protection#e789828f8689869186958c8695a7899e92c9828392" class="btn btn-primary"><span class="__cf_email__" data-cfemail="f39d969b929d92859281989281b39d8a86dd969786">[email&#160;protected]</span></a>
     </div>
     <div class="contact-links reveal">
-      <a href="mailto:nehanavarkar@nyu.edu" class="contact-link">
-        nehanavarkar@nyu.edu
+      <a href="/cdn-cgi/l/email-protection#2d4348454c434c5b4c5f464c5f6d43545803484958" class="contact-link">
+        <span class="__cf_email__" data-cfemail="5f313a373e313e293e2d343e2d1f31262a713a3b2a">[email&#160;protected]</span>
         <span class="contact-link-label">Email</span>
       </a>
       <a href="https://linkedin.com/in/nehanavarkar" target="_blank" class="contact-link">
@@ -904,19 +904,6 @@
     <p>Brooklyn, New York</p>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-  </script>
-
-</body>
-</html>
+    const reveals = document.querySelectorAll('.reveal')
