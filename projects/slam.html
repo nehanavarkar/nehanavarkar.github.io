@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual SLAM Navigation Stack — Neha Navarkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A; --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(247,245,240,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: end; }
+    .project-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-summary { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 520px; }
+    .project-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; }
+    .section { margin-bottom: 4rem; }
+    .section h2 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .section h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.75rem; }
+    .section p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; max-width: 680px; }
+    .section ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-width: 680px; }
+    .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+    .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+    .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .video-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 3rem; }
+    .video-placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+    .video-placeholder .icon { font-size: 3rem; opacity: 0.3; }
+    .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+    .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .arch-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .arch-card p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .pipeline { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .pipeline-step { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; align-items: start; }
+    .pipeline-label { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; padding-top: 0.1rem; }
+    .pipeline-desc h4 { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem; }
+    .pipeline-desc p { font-size: 0.85rem; color: var(--muted); font-weight: 300; margin: 0; }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .result-card { background: var(--accent2); color: #fff; padding: 1.75rem; text-align: center; }
+    .result-num { font-family: var(--serif); font-size: 2rem; line-height: 1; margin-bottom: 0.25rem; }
+    .result-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 1.5rem; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.75rem; }
+    .info-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-card ul li { display: flex; gap: 0.75rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .info-card ul li::before { content: '·'; color: var(--accent); }
+    .pub-banner { background: var(--accent2); color: #fff; padding: 2.5rem 3rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; margin-top: 1.5rem; }
+    .pub-banner h3 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem; color: #fff; }
+    .pub-banner p { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.6); margin: 0; }
+    .pub-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 0.75rem 1.25rem; white-space: nowrap; transition: all 0.2s; }
+    .pub-link:hover { background: rgba(255,255,255,0.1); }
+    code { font-family: var(--mono); font-size: 0.82rem; background: var(--line); padding: 0.1rem 0.4rem; border-radius: 2px; color: var(--ink); }
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .arch-grid, .result-grid, .two-col { grid-template-columns: 1fr; }
+      .pipeline-step { grid-template-columns: 1fr; gap: 0.5rem; }
+      .pub-banner { grid-template-columns: 1fr; gap: 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Neha Navarkar</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <p class="project-label">Project 01 · Research · NYU CILVR Lab · May 2025 – Present</p>
+      <h1 class="project-title">Visual SLAM<br/>Navigation Stack<br/>for YOR</h1>
+      <p class="project-summary">A full autonomous navigation pipeline for the YOR mobile manipulator — visual-inertial SLAM, real-time voxel mapping, weighted A* planning, and pure-pursuit control running on Jetson/NUC hardware. Demonstrated 12mm odometry accuracy over 10 loops in real-world indoor environments. Part of the published YOR platform (arXiv:2602.11150).</p>
+      <div class="btns">
+        <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="btn btn-primary">View Paper</a>
+        <a href="https://yourownrobot.ai" target="_blank" class="btn btn-outline">Project Website</a>
+      </div>
+    </div>
+    <div class="project-meta">
+      <div class="meta-item">
+        <label>Lab</label>
+        <p>NYU CILVR — Generalizable Robotics & AI</p>
+      </div>
+      <div class="meta-item">
+        <label>Platform</label>
+        <p>YOR Mobile Manipulator</p>
+      </div>
+      <div class="meta-item">
+        <label>Stack</label>
+        <div class="tags">
+          <span class="tag">ROS</span><span class="tag">Python</span><span class="tag">C++</span>
+          <span class="tag">ZED 2i</span><span class="tag">VINS-Mono</span>
+          <span class="tag">ZED-SDK</span><span class="tag">Voxel Mapping</span>
+          <span class="tag">A* Planning</span><span class="tag">Pure Pursuit</span>
+          <span class="tag">Rerun</span><span class="tag">Viser</span>
+          <span class="tag">Jetson</span><span class="tag">NUC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DEMO -->
+    <div class="section">
+      <h2>Demo</h2>
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="icon">▶</div>
+          <p>Add your demo video here<br/>Replace with YouTube embed</p>
+        </div>
+      </div>
+      <p class="video-caption">YOR navigating autonomously — real-time 3D mapping, path planning, and dynamic obstacle avoidance in an indoor environment</p>
+    </div>
+
+    <!-- CONTEXT -->
+    <div class="section">
+      <h2>Context</h2>
+      <p>This SLAM navigation stack is built as part of my research at NYU's Generalizable Robotics & AI Lab (CILVR), where I work as a Research Assistant on the YOR platform — an open-source, sub-$10K mobile manipulator designed to democratize mobile manipulation research.</p>
+      <p>YOR needs to navigate previously unseen indoor environments autonomously while simultaneously performing manipulation tasks with its two arms. The navigation stack is the foundation that makes this possible — without reliable localization and mapping, the arm control and task planning built on top of it falls apart.</p>
+      <p>The stack integrates visual-inertial SLAM for pose estimation, dense voxel mapping for environment representation, and classical planning for collision-free navigation — all running in real time on onboard hardware.</p>
+    </div>
+
+    <!-- KEY RESULTS -->
+    <div class="section">
+      <h2>Key Results</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-num">12mm</div>
+          <div class="result-label">Odometry accuracy over 10 loops</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">16mm</div>
+          <div class="result-label">End-effector tracking error during base motion</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">&lt;1s</div>
+          <div class="result-label">Dynamic obstacle replanning time</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">5Hz</div>
+          <div class="result-label">Voxel map update rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SYSTEM ARCHITECTURE -->
+    <div class="section">
+      <h2>System Architecture</h2>
+      <p>The full navigation pipeline runs in four sequential stages — from raw sensor data to motor commands — all operating concurrently in a multi-threaded pipeline on Jetson/NUC hardware.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 1 — State Estimation</div>
+          <div class="pipeline-desc">
+            <h4>VINS-Mono Visual-Inertial SLAM</h4>
+            <p>VINS-Mono estimates robot pose using the ZED 2i stereo camera and ZED-SDK for odometry and loop closure. Combines visual features with IMU measurements for accurate 6-DOF pose estimation robust to fast motion. ZED-SDK provides high-quality stereo depth and odometry directly from the camera hardware.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 2 — Dense Mapping</div>
+          <div class="pipeline-desc">
+            <h4>Real-Time Voxel Map</h4>
+            <p>RGB and stereo depth from ZED 2i are converted to point clouds and integrated into a voxel map in the world frame at 5Hz. Voxel filtering and outlier rejection maintain map quality. Floor detection extracts the ground plane, and voxels are projected onto a 2D occupancy grid to create a global cost map — continuously updated with local cost maps from live point clouds.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 3 — Path Planning</div>
+          <div class="pipeline-desc">
+            <h4>Weighted A* + Dynamic Replanning</h4>
+            <p>A weighted A* planner generates collision-free paths through the global cost map. When a novel obstacle is detected (e.g., a walking human), the voxel occupancy is updated and a replan is triggered — producing a new collision-free path within one second. The planner uses both global cost map and live local cost map for reactive replanning.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 4 — Control</div>
+          <div class="pipeline-desc">
+            <h4>Pure Pursuit with PID</h4>
+            <p>Pure Pursuit path following controller executes planned trajectories on the omnidirectional swerve drive base. A lookahead point on the path is tracked continuously. PID control on base velocity ensures smooth execution. The decoupled translational and rotational control of the swerve drive simplifies navigation in cluttered spaces.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HARDWARE -->
+    <div class="section">
+      <h2>Hardware</h2>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h4>ZED 2i Stereo Camera</h4>
+          <p>Primary sensor for the entire navigation stack. Provides RGB, stereo depth, and IMU data. ZED-SDK handles hardware-accelerated depth computation, odometry, and loop closure detection onboard.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Jetson / NUC Compute</h4>
+          <p>Multi-threaded pipeline runs all navigation modules concurrently — SLAM, mapping, planning, and control — on the onboard Jetson or NUC platform with real-time performance requirements.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Omnidirectional Swerve Base</h4>
+          <p>YOR's base provides decoupled translational and rotational control — the robot can move in any direction without rotating first. This simplifies planning and control in cluttered indoor environments.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Telescopic Vertical Lift</h4>
+          <p>63.5cm vertical range extends YOR's workspace from floor to overhead. The navigation stack integrates with the lift controller for whole-body coordination tasks.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Rerun Visualization</h4>
+          <p>Live 3D visualization of the voxel map, robot pose, planned path, and sensor data during operation. Essential for real-time debugging, tuning the planner, and verifying SLAM accuracy.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Viser Visualization</h4>
+          <p>Web-based 3D visualization for remote monitoring and teleoperation support. Provides an external view of the robot's internal state during autonomous operation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEMOS -->
+    <div class="section">
+      <h2>Validation Demos</h2>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>Tally-Mark Odometry Test</h4>
+          <ul>
+            <li>YOR marked a reference point on paper and returned to mark it once per loop</li>
+            <li>Robot traversed the full environment between each mark</li>
+            <li>After 10 loops: return marks within a 12mm radius of the initial mark</li>
+            <li>12mm is well within the 50mm positional accuracy spec of the pipeline</li>
+            <li>Validates both odometry accuracy and loop-closure performance</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Whole-Body Coordination Test</h4>
+          <ul>
+            <li>YOR held a ball in its gripper while the mobile base executed a lateral translation</li>
+            <li>Arm controller compensates for base movement in real time</li>
+            <li>End-effector deviation: 16mm — minimal tracking error under base motion</li>
+            <li>Demonstrates tight coupling between SLAM pose estimation and arm control</li>
+            <li>Critical for mobile manipulation tasks requiring simultaneous navigation and manipulation</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:2px">
+        <div class="info-card">
+          <h4>Dynamic Obstacle Avoidance</h4>
+          <ul>
+            <li>YOR navigates toward a fixed goal while a walking human crosses the planned path</li>
+            <li>System detects the human in the live point cloud</li>
+            <li>Voxel occupancy updated → replan triggered within 1 second</li>
+            <li>New collision-free path generated around the human</li>
+            <li>Green path + red obstacles visible in internal voxel map visualization</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Repeatability & Accuracy</h4>
+          <ul>
+            <li>Point-to-point navigation in previously unseen indoor environments</li>
+            <li>Real-time 3D map built from scratch on each new deployment</li>
+            <li>No pre-built maps required — fully online SLAM</li>
+            <li>Robust to dynamic environments and moving obstacles</li>
+            <li>Validated across multiple room configurations and obstacle layouts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PUBLICATION -->
+    <div class="section">
+      <h2>Publication</h2>
+      <div class="pub-banner">
+        <div>
+          <h3>YOR: Your Own Mobile Manipulator for Generalizable Robotics</h3>
+          <p>Manan H Anjaria, Mehmet Enes Erciyes, Vedant Ghatnekar, <strong>Neha Navarkar</strong>, Haritheja Etukuru, Xiaole Jiang, Kanad Patel, Dhawal Kabra, Nicholas Wojno, Radhika Ajay Prayage, Soumith Chintala, Lerrel Pinto, Nur Muhammad Mahi Shafiullah, Zichen Jeff Cui · arXiv:2602.11150 · February 2026</p>
+        </div>
+        <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="pub-link">View Paper →</a>
+      </div>
+    </div>
+
+    <!-- WHAT I LEARNED -->
+    <div class="section">
+      <h2>What I Learned</h2>
+      <ul>
+        <li>Visual-inertial SLAM is significantly more robust than visual-only SLAM for fast-moving platforms — IMU fusion handles motion blur and rapid rotations that break feature tracking</li>
+        <li>Voxel map update rate (5Hz) is a critical tradeoff — faster updates improve obstacle detection but increase compute load; 5Hz was the right balance for the Jetson hardware</li>
+        <li>Pure Pursuit lookahead distance has an outsized effect on path smoothness vs. tracking accuracy — too short causes oscillation, too long causes corner-cutting</li>
+        <li>Building production-grade multi-threaded robotics pipelines in Python requires careful thread management — shared state between SLAM, planning, and control modules needs explicit synchronization</li>
+        <li>Real-time visualization with Rerun is invaluable for debugging sensor data — finding SLAM drift issues that weren't visible in position logs but were immediately obvious in 3D visualization</li>
+        <li>Whole-body coordination (nav + arm) requires much tighter pose estimation than navigation alone — the 12mm odometry accuracy was sufficient for navigation but borderline for manipulation precision</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Neha Navarkar</p>
+    <p><a href="../index.html" style="color:var(--muted);text-decoration:none;">nehanavarkar.github.io</a></p>
+  </footer>
+</body>
+</html>
