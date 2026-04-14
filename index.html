@@ -9,257 +9,55 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:        #F7F5F0;
-      --ink:       #1A1814;
-      --muted:     #7A7570;
-      --accent:    #C4541A;
-      --accent2:   #2A4A3E;
-      --line:      #D8D4CC;
-      --card-bg:   #FFFFFF;
-      --serif:     'DM Serif Display', Georgia, serif;
-      --mono:      'DM Mono', monospace;
-      --sans:      'DM Sans', sans-serif;
+      --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A;
+      --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif;
     }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-weight: 300;
-      line-height: 1.7;
-      font-size: 15px;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.2rem 3rem;
-      background: rgba(247,245,240,0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--accent);
-      letter-spacing: 0.06em;
-      text-decoration: none;
-    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-weight: 300; line-height: 1.7; font-size: 15px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; background: rgba(247,245,240,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; text-decoration: none; }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
     .nav-links a:hover { color: var(--accent); }
-
-    /* HERO */
-    #hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 3rem 5rem;
-      position: relative;
-      overflow: hidden;
-      border-bottom: 1px solid var(--line);
-    }
-    .hero-grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.5;
-      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
-    }
-    .hero-eyebrow {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.2s;
-    }
-    h1.hero-name {
-      font-family: var(--serif);
-      font-size: clamp(3.5rem, 9vw, 8rem);
-      line-height: 0.95;
-      color: var(--ink);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.35s;
-    }
+    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 3rem 5rem; position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+    .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.5; mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, transparent 100%); }
+    .hero-eyebrow { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s; }
+    h1.hero-name { font-family: var(--serif); font-size: clamp(3.5rem, 9vw, 8rem); line-height: 0.95; color: var(--ink); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.35s; }
     h1.hero-name em { font-style: italic; color: var(--accent); }
-    .hero-tagline {
-      font-size: 16px;
-      color: var(--muted);
-      font-weight: 400;
-      max-width: 500px;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.5s;
-    }
-    .hero-meta {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.6s;
-    }
+    .hero-tagline { font-size: 16px; color: var(--muted); font-weight: 400; max-width: 500px; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.5s; }
+    .hero-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.7s ease forwards 0.6s; }
     .hero-meta span::before { content: '— '; color: var(--line); }
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.7s;
-    }
-    .btn-primary {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.75rem 1.75rem;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.15s;
-    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s ease forwards 0.7s; }
+    .btn-primary { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.75rem; background: var(--accent); color: #fff; text-decoration: none; transition: background 0.2s, transform 0.15s; }
     .btn-primary:hover { background: var(--ink); transform: translateY(-1px); }
-    .btn-ghost {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.75rem 1.75rem;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s, transform 0.15s;
-    }
+    .btn-ghost { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.75rem 1.75rem; border: 1px solid var(--line); color: var(--muted); text-decoration: none; transition: border-color 0.2s, color 0.2s, transform 0.15s; }
     .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
-
-    /* METRICS */
-    .metrics-strip {
-      background: var(--accent2);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      opacity: 0;
-      animation: fadeUp 0.7s ease forwards 0.85s;
-    }
-    .metric {
-      padding: 2rem 2.5rem;
-      border-right: 1px solid rgba(255,255,255,0.1);
-    }
+    .metrics-strip { background: var(--accent2); display: grid; grid-template-columns: repeat(4, 1fr); opacity: 0; animation: fadeUp 0.7s ease forwards 0.85s; }
+    .metric { padding: 2rem 2.5rem; border-right: 1px solid rgba(255,255,255,0.1); }
     .metric:last-child { border-right: none; }
-    .metric-value {
-      font-family: var(--serif);
-      font-size: 2.6rem;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-    .metric-value span {
-      font-family: var(--mono);
-      font-size: 1rem;
-      color: rgba(255,255,255,0.55);
-    }
-    .metric-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    /* SECTIONS */
+    .metric-value { font-family: var(--serif); font-size: 2.6rem; color: #fff; line-height: 1; margin-bottom: 0.3rem; }
+    .metric-value span { font-family: var(--mono); font-size: 1rem; color: rgba(255,255,255,0.55); }
+    .metric-label { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
     section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem;
-      margin-bottom: 3.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--line);
-    }
+    .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 3.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
     .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
     h2 { font-family: var(--serif); font-size: 2.2rem; color: var(--ink); font-weight: 400; }
     .section-alt { background: var(--card-bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-
-    /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 1fr 300px; gap: 5rem; align-items: start; }
     .about-text p { margin-bottom: 1.2rem; color: var(--ink); }
     .about-text strong { color: var(--ink); font-weight: 600; }
-    .highlight-box {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent);
-      padding: 1.2rem 1.5rem;
-      margin: 1.5rem 0;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--accent);
-      line-height: 1.6;
-    }
+    .highlight-box { background: var(--card-bg); border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 1.2rem 1.5rem; margin: 1.5rem 0; font-family: var(--mono); font-size: 12px; color: var(--accent); line-height: 1.6; }
     .skills-cloud { display: flex; flex-direction: column; gap: 1.4rem; }
-    .skill-group-label {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--accent);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
+    .skill-group-label { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 0.25rem 0.65rem;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      background: var(--card-bg);
-      letter-spacing: 0.04em;
-      transition: border-color 0.15s, color 0.15s;
-    }
+    .tag { font-family: var(--mono); font-size: 11px; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); background: var(--card-bg); letter-spacing: 0.04em; transition: border-color 0.15s, color 0.15s; }
     .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* EXPERIENCE */
     .timeline { display: flex; flex-direction: column; }
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 2.5rem;
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--line);
-      position: relative;
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: 196px; top: 0; bottom: 0;
-      border-right: 1px solid var(--line);
-    }
+    .timeline-item { display: grid; grid-template-columns: 200px 1fr; gap: 2.5rem; padding: 2.5rem 0; border-bottom: 1px solid var(--line); position: relative; }
+    .timeline-item::before { content: ''; position: absolute; left: 196px; top: 0; bottom: 0; border-right: 1px solid var(--line); }
     .timeline-date { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; padding-top: 0.2rem; text-align: right; }
     .timeline-company { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 0.3rem; text-align: right; }
     .timeline-title { font-family: var(--sans); font-size: 16px; color: var(--ink); font-weight: 600; margin-bottom: 0.6rem; }
@@ -267,84 +65,31 @@
     .timeline-body ul { list-style: none; margin-top: 0.6rem; }
     .timeline-body li { padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; color: var(--muted); }
     .timeline-body li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
-    .timeline-pub {
-      display: inline-block;
-      margin-top: 0.8rem;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(196,84,26,0.3);
-      padding-bottom: 1px;
-      transition: border-color 0.15s;
-    }
+    .timeline-pub { display: inline-block; margin-top: 0.8rem; font-family: var(--mono); font-size: 11px; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(196,84,26,0.3); padding-bottom: 1px; transition: border-color 0.15s; }
     .timeline-pub:hover { border-color: var(--accent); }
-
-    /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
-    .project-card {
-      background: var(--card-bg);
-      padding: 2.2rem;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.2s;
-    }
+    .project-card { background: var(--card-bg); padding: 2.2rem; text-decoration: none; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: background 0.2s; }
     .project-card:hover { background: var(--bg); }
-    .project-card::after {
-      content: '↗';
-      position: absolute;
-      top: 1.5rem; right: 1.5rem;
-      font-size: 14px;
-      color: var(--line);
-      transition: color 0.2s, transform 0.2s;
-    }
+    .project-card::after { content: '↗'; position: absolute; top: 1.5rem; right: 1.5rem; font-size: 14px; color: var(--line); transition: color 0.2s, transform 0.2s; }
     .project-card:hover::after { color: var(--accent); transform: translate(2px,-2px); }
     .project-num { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 1rem; }
     .project-title { font-family: var(--serif); font-size: 1.4rem; color: var(--ink); font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; }
-    .project-metric {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      background: rgba(196,84,26,0.06);
-      border: 1px solid rgba(196,84,26,0.2);
-      padding: 0.3rem 0.7rem;
-      display: inline-block;
-      margin-bottom: 1rem;
-      letter-spacing: 0.04em;
-    }
+    .project-metric { font-family: var(--mono); font-size: 11px; color: var(--accent); background: rgba(196,84,26,0.06); border: 1px solid rgba(196,84,26,0.2); padding: 0.3rem 0.7rem; display: inline-block; margin-bottom: 1rem; letter-spacing: 0.04em; }
     .project-desc { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.2rem; }
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
-
-    /* RESEARCH */
     .paper-card { background: var(--card-bg); border: 1px solid var(--line); padding: 2.5rem; display: flex; gap: 3rem; align-items: flex-start; }
-    .paper-badge {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      border: 1px solid rgba(196,84,26,0.3);
-      padding: 0.3rem 0.7rem;
-      white-space: nowrap;
-      letter-spacing: 0.06em;
-      background: rgba(196,84,26,0.04);
-    }
+    .paper-badge { font-family: var(--mono); font-size: 11px; color: var(--accent); border: 1px solid rgba(196,84,26,0.3); padding: 0.3rem 0.7rem; white-space: nowrap; letter-spacing: 0.06em; background: rgba(196,84,26,0.04); }
     .paper-title { font-family: var(--serif); font-size: 1.35rem; color: var(--ink); margin-bottom: 0.6rem; }
     .paper-authors { font-size: 13px; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.6; }
     .paper-authors strong { color: var(--ink); font-weight: 500; }
     .paper-desc { font-size: 14px; color: var(--ink); margin-bottom: 1.2rem; }
     .paper-link { font-family: var(--mono); font-size: 12px; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(196,84,26,0.3); letter-spacing: 0.06em; transition: border-color 0.15s; }
     .paper-link:hover { border-color: var(--accent); }
-
-    /* AWARDS */
     .awards-list { display: flex; flex-direction: column; }
     .award-item { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 1.8rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
     .award-year { font-family: var(--mono); font-size: 12px; color: var(--accent); }
     .award-title { font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 0.2rem; }
     .award-org { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.5; }
-
-    /* CONTACT */
     #contact { background: var(--ink); border-top: 1px solid var(--line); }
     #contact section { max-width: 1100px; }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
@@ -360,25 +105,14 @@
     .contact-link-value { font-size: 14px; color: rgba(255,255,255,0.65); flex: 1; }
     .contact-link-arrow { color: rgba(255,255,255,0.2); font-family: var(--mono); transition: color 0.2s; }
     .contact-link:hover .contact-link-arrow { color: var(--accent); }
-
-    /* FOOTER */
     footer { padding: 1.5rem 3rem; border-top: 1px solid rgba(255,255,255,0.07); background: var(--ink); display: flex; justify-content: space-between; align-items: center; }
     footer span { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.22); letter-spacing: 0.06em; }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    /* RESPONSIVE */
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      #hero { padding: 0 1.5rem 4rem; }
-      section { padding: 4rem 1.5rem; }
+      nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+      #hero { padding: 0 1.5rem 4rem; } section { padding: 4rem 1.5rem; }
       .about-grid { grid-template-columns: 1fr; gap: 3rem; }
       .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
       .timeline-item::before { display: none; }
@@ -393,7 +127,6 @@
   </style>
 </head>
 <body>
-
 <nav>
   <a href="#hero" class="nav-logo">NN_</a>
   <ul class="nav-links">
@@ -425,43 +158,28 @@
 </section>
 
 <div class="metrics-strip reveal">
-  <div class="metric">
-    <div class="metric-value">12<span>mm</span></div>
-    <div class="metric-label">Odometry accuracy · 10 loops</div>
-  </div>
-  <div class="metric">
-    <div class="metric-value">&lt;1<span>s</span></div>
-    <div class="metric-label">Dynamic obstacle replanning</div>
-  </div>
-  <div class="metric">
-    <div class="metric-value">95<span>%</span></div>
-    <div class="metric-label">Autonomous docking success</div>
-  </div>
-  <div class="metric">
-    <div class="metric-value">3.7<span>/4</span></div>
-    <div class="metric-label">GPA · MS Robotics · NYU</div>
-  </div>
+  <div class="metric"><div class="metric-value">12<span>mm</span></div><div class="metric-label">Odometry accuracy · 10 loops</div></div>
+  <div class="metric"><div class="metric-value">&lt;1<span>s</span></div><div class="metric-label">Dynamic obstacle replanning</div></div>
+  <div class="metric"><div class="metric-value">95<span>%</span></div><div class="metric-label">Autonomous docking success</div></div>
+  <div class="metric"><div class="metric-value">3.7<span>/4</span></div><div class="metric-label">GPA · MS Robotics · NYU</div></div>
 </div>
 
 <div id="about">
   <section>
-    <div class="section-header reveal">
-      <span class="section-num">01</span>
-      <h2>About</h2>
-    </div>
+    <div class="section-header reveal"><span class="section-num">01</span><h2>About</h2></div>
     <div class="about-grid">
       <div class="about-text reveal">
         <p>I'm a <strong>Robotics and Mechatronics Engineering MS student at NYU</strong>, working as a Research Assistant at the Generalizable Robotics &amp; AI Lab (CILVR). My focus is building navigation and perception systems that actually work in the real world — not just in simulation.</p>
-        <p>My main project is the <strong>YOR mobile manipulator</strong>: an open-source, sub-$10K platform for mobile manipulation research. Co-developed its entire navigation stack — from VINS-Mono SLAM and voxel mapping to path planning and pure-pursuit control — validated to 12mm odometry accuracy in live indoor environments.</p>
+        <p>My main project is the <strong>YOR mobile manipulator</strong>: an open-source, sub-$10K platform for mobile manipulation research. Co-developed its entire navigation stack — from ZED SDK visual-inertial odometry and voxel mapping to path planning and pure-pursuit control — validated to 12mm odometry accuracy in live indoor environments.</p>
         <div class="highlight-box">arXiv:2602.11150 · YOR: Your Own Mobile Manipulator<br>Contributing author · Feb 2026</div>
-        <p>Before NYU, I was a Graduate Apprentice at <strong>Bosch Chassis Systems</strong>, where I won 1st place in Bosch's MDP Global Championship — an internal innovation competition across international teams — for a sensor-fusion analytics pipeline.</p>
+        <p>Before NYU, I was a Graduate Apprentice at <strong>Bosch Chassis Systems</strong>, where I won 1st place in Bosch's MDP Global Championship for a sensor-fusion analytics pipeline.</p>
         <p>I'm actively looking for <strong>full-time roles</strong> in robotics software engineering, autonomy, or robot learning. Available May 2026.</p>
       </div>
       <div class="skills-cloud reveal">
         <div>
           <p class="skill-group-label">Autonomy &amp; SLAM</p>
           <div class="skill-tags">
-            <span class="tag">ROS2</span><span class="tag">VINS-Mono</span><span class="tag">ZED 2i</span><span class="tag">A* Planning</span><span class="tag">Sensor Fusion</span><span class="tag">Voxel Mapping</span>
+            <span class="tag">ROS2</span><span class="tag">ZED SDK VIO</span><span class="tag">ZED 2i</span><span class="tag">A* Planning</span><span class="tag">Sensor Fusion</span><span class="tag">Voxel Mapping</span>
           </div>
         </div>
         <div>
@@ -495,10 +213,7 @@
 
 <div id="experience" class="section-alt">
   <section>
-    <div class="section-header reveal">
-      <span class="section-num">02</span>
-      <h2>Experience</h2>
-    </div>
+    <div class="section-header reveal"><span class="section-num">02</span><h2>Experience</h2></div>
     <div class="timeline">
       <div class="timeline-item reveal">
         <div>
@@ -509,7 +224,7 @@
           <div class="timeline-title">Research Assistant — Generalizable Robotics &amp; AI</div>
           <div class="timeline-body">
             <ul>
-              <li>Built full autonomous navigation stack for YOR: VINS-Mono SLAM, real-time voxel mapping (5Hz), weighted A* planning, pure-pursuit control — validated at 12mm odometry accuracy over 10 loops on Jetson/NUC hardware.</li>
+              <li>Built full autonomous navigation stack for YOR: ZED SDK visual-inertial odometry, real-time voxel mapping (5Hz), weighted A* planning, pure-pursuit control — validated at 12mm odometry accuracy over 10 loops on Jetson/NUC hardware.</li>
               <li>Implemented dynamic obstacle replanning (&lt;1s replan time) via live voxel occupancy updates; multi-threaded Python pipeline with live visualization in Rerun and Viser.</li>
               <li>Whole-body coordination: 16mm end-effector deviation during simultaneous base motion.</li>
             </ul>
@@ -541,7 +256,7 @@
           <div class="timeline-title">Graduate Apprentice — Chassis Systems</div>
           <div class="timeline-body">
             <ul>
-              <li>Won 1st place at Bosch's MDP Global Championship — internal innovation competition across international teams — for a sensor-fusion analytics pipeline reducing measurement discrepancies by 20%.</li>
+              <li>Won 1st place at Bosch's MDP Global Championship for a sensor-fusion analytics pipeline reducing measurement discrepancies by 20%.</li>
               <li>Owned end-to-end delivery of 5 high-impact digitization projects: requirements, implementation, and stakeholder sign-off.</li>
             </ul>
           </div>
@@ -553,17 +268,14 @@
 
 <div id="projects">
   <section>
-    <div class="section-header reveal">
-      <span class="section-num">03</span>
-      <h2>Projects</h2>
-    </div>
+    <div class="section-header reveal"><span class="section-num">03</span><h2>Projects</h2></div>
     <div class="projects-grid">
       <a href="projects/slam.html" class="project-card reveal">
         <div class="project-num">Project 01 · Research · NYU CILVR</div>
         <div class="project-title">Visual SLAM Navigation Stack</div>
         <div class="project-metric">12mm odometry accuracy over 10 loops</div>
-        <div class="project-desc">Full autonomous navigation pipeline for the YOR mobile manipulator — VINS-Mono SLAM, real-time voxel mapping, weighted A* planning, and pure-pursuit control. Dynamic obstacle replanning in under 1 second.</div>
-        <div class="project-tags"><span class="tag">ROS</span><span class="tag">VINS-Mono</span><span class="tag">ZED 2i</span><span class="tag">Python</span><span class="tag">Jetson</span></div>
+        <div class="project-desc">Full autonomous navigation pipeline for the YOR mobile manipulator — ZED SDK visual-inertial odometry, real-time voxel mapping, weighted A* planning, and pure-pursuit control. Dynamic obstacle replanning in under 1 second.</div>
+        <div class="project-tags"><span class="tag">ZED SDK VIO</span><span class="tag">ZED 2i</span><span class="tag">Python</span><span class="tag">Jetson</span></div>
       </a>
       <a href="projects/go2.html" class="project-card reveal">
         <div class="project-num">Project 02 · RL · ROB-GY 6323</div>
@@ -592,10 +304,7 @@
 
 <div id="publications" class="section-alt">
   <section>
-    <div class="section-header reveal">
-      <span class="section-num">04</span>
-      <h2>Research</h2>
-    </div>
+    <div class="section-header reveal"><span class="section-num">04</span><h2>Research</h2></div>
     <div class="paper-card reveal">
       <div style="flex-shrink:0;"><div class="paper-badge">arXiv · Feb 2026</div></div>
       <div>
@@ -610,10 +319,7 @@
 
 <div id="awards">
   <section>
-    <div class="section-header reveal">
-      <span class="section-num">05</span>
-      <h2>Awards</h2>
-    </div>
+    <div class="section-header reveal"><span class="section-num">05</span><h2>Awards</h2></div>
     <div class="awards-list">
       <div class="award-item reveal">
         <div class="award-year">2025</div>
@@ -651,26 +357,10 @@
         </div>
       </div>
       <div class="contact-links reveal">
-        <a href="mailto:nehanavarkar@nyu.edu" class="contact-link">
-          <span class="contact-link-label">Email</span>
-          <span class="contact-link-value">nehanavarkar@nyu.edu</span>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a href="https://linkedin.com/in/nehanavarkar" class="contact-link" target="_blank">
-          <span class="contact-link-label">LinkedIn</span>
-          <span class="contact-link-value">linkedin.com/in/nehanavarkar</span>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a href="https://github.com/nehanavarkar" class="contact-link" target="_blank">
-          <span class="contact-link-label">GitHub</span>
-          <span class="contact-link-value">github.com/nehanavarkar</span>
-          <span class="contact-link-arrow">→</span>
-        </a>
-        <a href="https://arxiv.org/abs/2602.11150" class="contact-link" target="_blank">
-          <span class="contact-link-label">Paper</span>
-          <span class="contact-link-value">arXiv:2602.11150</span>
-          <span class="contact-link-arrow">→</span>
-        </a>
+        <a href="mailto:nehanavarkar@nyu.edu" class="contact-link"><span class="contact-link-label">Email</span><span class="contact-link-value">nehanavarkar@nyu.edu</span><span class="contact-link-arrow">→</span></a>
+        <a href="https://linkedin.com/in/nehanavarkar" class="contact-link" target="_blank"><span class="contact-link-label">LinkedIn</span><span class="contact-link-value">linkedin.com/in/nehanavarkar</span><span class="contact-link-arrow">→</span></a>
+        <a href="https://github.com/nehanavarkar" class="contact-link" target="_blank"><span class="contact-link-label">GitHub</span><span class="contact-link-value">github.com/nehanavarkar</span><span class="contact-link-arrow">→</span></a>
+        <a href="https://arxiv.org/abs/2602.11150" class="contact-link" target="_blank"><span class="contact-link-label">Paper</span><span class="contact-link-value">arXiv:2602.11150</span><span class="contact-link-arrow">→</span></a>
       </div>
     </div>
   </section>
