@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go2 RL Locomotion — Neha Navarkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A; --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(247,245,240,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: end; }
+    .project-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-summary { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 520px; }
+    .project-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; }
+    .section { margin-bottom: 4rem; }
+    .section h2 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .section h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.75rem; }
+    .section p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; max-width: 680px; }
+    .section ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-width: 680px; }
+    .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+    .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+    .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .video-embed iframe { width: 100%; height: 100%; border: none; }
+    .video-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 3rem; }
+    .video-placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+    .video-placeholder .icon { font-size: 3rem; opacity: 0.3; }
+    .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+    .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .arch-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .arch-card p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 1.5rem; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.75rem; }
+    .info-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-card ul li { display: flex; gap: 0.75rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .info-card ul li::before { content: '·'; color: var(--accent); }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .result-card { background: var(--accent2); color: #fff; padding: 1.75rem; text-align: center; }
+    .result-num { font-family: var(--serif); font-size: 2rem; line-height: 1; margin-bottom: 0.25rem; }
+    .result-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .eq-block { background: var(--card-bg); border: 1px solid var(--line); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 1rem 0; font-family: var(--mono); font-size: 0.85rem; color: var(--ink); }
+    .eq-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.35rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .branches { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .branch-item { display: grid; grid-template-columns: 140px 1fr; gap: 1.5rem; background: var(--card-bg); border: 1px solid var(--line); padding: 1.25rem 1.5rem; align-items: start; }
+    .branch-name { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; }
+    .branch-desc { font-size: 0.88rem; color: var(--muted); font-weight: 300; }
+    code { font-family: var(--mono); font-size: 0.82rem; background: var(--line); padding: 0.1rem 0.4rem; border-radius: 2px; color: var(--ink); }
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; }
+      .arch-grid, .two-col, .result-grid { grid-template-columns: 1fr; }
+      .branch-item { grid-template-columns: 1fr; gap: 0.35rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Neha Navarkar</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <p class="project-label">Project 03 · Reinforcement Learning · ROB-GY 6323 · NYU · 2025</p>
+      <h1 class="project-title">Robust Command-Following<br/>Locomotion for<br/>Unitree Go2</h1>
+      <p class="project-summary">Solo RL project training a Unitree Go2 quadruped in Isaac Lab to follow commanded velocity and yaw with improved stability, smoothness, and contact robustness — via torque-based PD control, gait phase clock inputs, command smoothing, and multi-term reward shaping. Includes bonus uneven terrain training on a separate branch.</p>
+      <div class="btns">
+        <a href="https://github.com/nehanavarkar/rob6323_go2_project" target="_blank" class="btn btn-primary">View on GitHub</a>
+        <a href="../index.html#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="project-meta">
+      <div class="meta-item">
+        <label>Course</label>
+        <p>ROB-GY 6323 — RL & Optimal Control</p>
+      </div>
+      <div class="meta-item">
+        <label>Robot</label>
+        <p>Unitree Go2 Quadruped</p>
+      </div>
+      <div class="meta-item">
+        <label>Simulator</label>
+        <p>Isaac Lab (NVIDIA) on NYU Greene HPC</p>
+      </div>
+      <div class="meta-item">
+        <label>Stack</label>
+        <div class="tags">
+          <span class="tag">Isaac Lab</span>
+          <span class="tag">Python</span>
+          <span class="tag">PPO</span>
+          <span class="tag">RSL-RL</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">SLURM</span>
+          <span class="tag">TensorBoard</span>
+          <span class="tag">Unitree Go2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DEMO -->
+    <div class="section">
+      <h2>Demo</h2>
+      <div class="video-embed">
+        <div class="video-placeholder">
+          <div class="icon">▶</div>
+          <p>Add your rollout video here<br/>Replace with YouTube embed</p>
+        </div>
+      </div>
+      <p class="video-caption">Trained Go2 policy following commanded velocity on flat and uneven terrain</p>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <h2>Overview</h2>
+      <p>Quadruped locomotion is a demanding RL benchmark — it combines high-dimensional continuous control, complex contact dynamics, and strict failure conditions. This project starts from a minimal Isaac Lab baseline that only rewards velocity tracking and extends it with a set of principled modifications targeting stability, smoothness, and contact robustness.</p>
+      <p>The key insight is that velocity tracking alone as a reward is insufficient — a policy can satisfy it through jittery, energetically wasteful motions that fail immediately on harder terrain. The modifications introduced here add structured inductive biases (torque-based control, gait clocks, reward shaping) that guide the policy toward physically sensible locomotion without replacing tracking as the primary objective.</p>
+      <p>All training was run on NYU's Greene HPC cluster using SLURM, with PPO via the RSL-RL library. The submission includes a main branch (Parts 1–5 + Bonus 1) and a separate bonus branch for uneven terrain.</p>
+    </div>
+
+    <!-- BASELINE LIMITATIONS -->
+    <div class="section">
+      <h2>Baseline Limitations</h2>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h4>Action Quality</h4>
+          <p>No penalty on action rate or torque. Policy can improve reward via high-frequency joint changes that match velocity momentarily while producing jittery, energetically inefficient motion.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Contact Consistency</h4>
+          <p>No representation of foot contact timing, swing clearance, or scuffing in observation or reward. Policies drag feet and fail to recover cleanly on uneven terrain.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Command Discontinuity</h4>
+          <p>Commands sampled without smoothing — abrupt changes create a harder learning problem and encourage unstable corrective actions.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Actuation Model</h4>
+          <p>Direct joint position targets without explicit torque computation or limits → behavior inconsistent under contact disturbances, no saturation awareness.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Gait Coordination</h4>
+          <p>No timing information in the observation. Policy has no structured way to coordinate leg phases, leading to irregular stepping patterns.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Terrain Robustness</h4>
+          <p>Trained only on flat ground. No termination for low base height, no contact-aware shaping. Performance degrades immediately on stairs or uneven surfaces.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODIFICATIONS -->
+    <div class="section">
+      <h2>Key Modifications</h2>
+
+      <h3>1 — Torque-Based PD Control with Saturation</h3>
+      <p>Replaced direct joint position targets with a PD controller that computes and clips torques explicitly. This constrains actuation authority and trains the policy under physically meaningful saturation.</p>
+      <div class="eq-block">
+        <div class="eq-label">Torque computation</div>
+        τ(t) = Kp(q_des(t) − q(t)) − Kd·q̇(t)
+        <br/>τ_clip(t) = clip(τ(t), −τ_max, τ_max)
+      </div>
+
+      <h3>2 — Command Smoothing via Low-Pass Filter</h3>
+      <p>Target command resampled periodically from a uniform distribution. The executed command is smoothed with a first-order low-pass filter, reducing discontinuities in the objective.</p>
+      <div class="eq-block">
+        <div class="eq-label">Command smoothing (first-order IIR)</div>
+        u_cmd(t+1) = α·u_cmd(t) + (1−α)·u_target(t)
+        <br/>α = exp(−Δt / τ)
+      </div>
+
+      <h3>3 — Gait Phase Clock Inputs</h3>
+      <p>Augmented the observation with periodic gait phase features — sine waves with per-leg phase offsets. These provide timing information that helps the policy coordinate rhythmic stepping without explicit foot trajectory planning.</p>
+      <div class="eq-block">
+        <div class="eq-label">Clock features (4 legs)</div>
+        c(t) = [sin(φ(t)+δ₁), sin(φ(t)+δ₂), sin(φ(t)+δ₃), sin(φ(t)+δ₄)]
+        <br/>φ(t) = 2πft
+      </div>
+
+      <h3>4 — Multi-Term Reward Shaping</h3>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>Smoothness & Effort Terms</h4>
+          <ul>
+            <li>Action rate penalty: −λₐ‖aₜ − aₜ₋₁‖²</li>
+            <li>Torque magnitude penalty: −λ_τ‖τ_clip‖²</li>
+            <li>Joint velocity regularization</li>
+            <li>Angular velocity roll/pitch penalty</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Stability & Contact Terms</h4>
+          <ul>
+            <li>Base height penalty (deviation from nominal)</li>
+            <li>Non-foot contact penalty (knees, hips, thighs)</li>
+            <li>Foot clearance / scuffing penalty</li>
+            <li>Raibert heuristic for coordinated stepping</li>
+            <li>Desired contact schedule shaping</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>5 — Bonus 1: Actuator Friction Randomization</h3>
+      <p>Implemented per-episode friction torque randomization for sim-to-real robustness. Friction modeled as:</p>
+      <div class="eq-block">
+        <div class="eq-label">Friction torque model</div>
+        τ_friction = F_s · tanh(q̇/0.1) + μ_v · q̇
+        <br/>μ_v ~ U(0.0, 0.3),  F_s ~ U(0.0, 2.5)  per episode
+      </div>
+
+      <h3>6 — Bonus 2: Uneven Terrain (separate branch)</h3>
+      <p>Switched from flat plane to Isaac Lab terrain generator with rough terrain config and curriculum learning. Kept isolated on the <code>bonus</code> branch to preserve a clean main submission.</p>
+    </div>
+
+    <!-- TRAINING -->
+    <div class="section">
+      <h2>Training & Results</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <div class="result-num">499</div>
+          <div class="result-label">Training steps</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">~1496</div>
+          <div class="result-label">Frames per second</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">16.4</div>
+          <div class="result-label">Final policy entropy</div>
+        </div>
+        <div class="result-card">
+          <div class="result-num">Stable</div>
+          <div class="result-label">PPO convergence</div>
+        </div>
+      </div>
+
+      <h3>Training Diagnostics</h3>
+      <ul>
+        <li>Policy entropy decreased smoothly from ~17 → 16.44 — policy becomes more confident and less exploratory as it learns a repeatable strategy</li>
+        <li>PPO surrogate objective remained small and noisy (final: −0.0084) — clipped updates with no instability</li>
+        <li>Value function loss stabilized in a narrow range (final: 3.20) — critic learning stably</li>
+        <li>Training throughput stabilized at ~1496 fps — pipeline not bottlenecked by learning updates</li>
+        <li>Collection time: 1.24s · Learning time: 0.13s — consistent parallel simulation on Greene HPC</li>
+      </ul>
+    </div>
+
+    <!-- REPO STRUCTURE -->
+    <div class="section">
+      <h2>Repository Structure</h2>
+      <div class="branches">
+        <div class="branch-item">
+          <div class="branch-name">master</div>
+          <div class="branch-desc">Parts 1–5 + Bonus 1 (actuator friction randomization). Main submission branch. Seed: 21.</div>
+        </div>
+        <div class="branch-item">
+          <div class="branch-name">tutorial</div>
+          <div class="branch-desc">Tutorial parts 1–4 implemented — baseline gait improvements.</div>
+        </div>
+        <div class="branch-item">
+          <div class="branch-name">improvements</div>
+          <div class="branch-desc">Reward shaping + terminations + command smoothing.</div>
+        </div>
+        <div class="branch-item">
+          <div class="branch-name">friction</div>
+          <div class="branch-desc">Bonus 1 — actuator friction model + per-episode randomization.</div>
+        </div>
+        <div class="branch-item">
+          <div class="branch-name">bonus</div>
+          <div class="branch-desc">Bonus 2 — uneven terrain training via Isaac Lab terrain generator + curriculum. Kept separate from master intentionally.</div>
+        </div>
+      </div>
+
+      <h3>Files Modified</h3>
+      <ul>
+        <li><code>source/rob6323_go2/.../rob6323_go2_env.py</code> — environment logic, reward terms, termination conditions, friction model</li>
+        <li><code>source/rob6323_go2/.../rob6323_go2_env_cfg.py</code> — configuration, seed, hyperparameters, terrain settings</li>
+      </ul>
+    </div>
+
+    <!-- WHAT I LEARNED -->
+    <div class="section">
+      <h2>What I Learned</h2>
+      <ul>
+        <li>Reward shaping for locomotion is genuinely hard — each new term can have unintended interactions with existing ones, and a component breakdown is essential to verify the policy isn't exploiting a single term</li>
+        <li>Gait phase clocks are a lightweight but effective way to introduce temporal structure — the policy converges to more coordinated stepping without explicit foot trajectory planning</li>
+        <li>Torque-based PD control with saturation makes the policy more robust under contact disturbances — direct position targets are brittle when the robot hits obstacles</li>
+        <li>Command smoothing meaningfully reduces the difficulty of the learning problem — abrupt command changes create unnecessary instability in the early policy</li>
+        <li>Training stability diagnostics (entropy, loss curves, throughput) are necessary but not sufficient — task-level metrics (tracking error, fall rate, action smoothness) are what actually validate design choices</li>
+        <li>Running experiments on Greene HPC via SLURM taught me reproducible experiment management — proper seeding, logging, and rsync workflows for large-scale RL</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Neha Navarkar</p>
+    <p><a href="../index.html" style="color:var(--muted);text-decoration:none;">nehanavarkar.github.io</a></p>
+  </footer>
+</body>
+</html>
