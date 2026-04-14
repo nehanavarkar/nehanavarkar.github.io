@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Neha Navarkar — Robotics Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -28,12 +29,12 @@
       background: var(--bg);
       color: var(--ink);
       font-family: var(--sans);
-      font-size: 16px;
+      font-weight: 300;
       line-height: 1.7;
-      overflow-x: hidden;
+      font-size: 15px;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -41,887 +42,650 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 4rem;
-      background: rgba(247,245,240,0.85);
-      backdrop-filter: blur(12px);
+      padding: 1.2rem 3rem;
+      background: rgba(247,245,240,0.92);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
-
     .nav-logo {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
       text-decoration: none;
-      letter-spacing: 0.01em;
     }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
       font-family: var(--mono);
-      font-size: 0.75rem;
-      font-weight: 400;
+      font-size: 12px;
       color: var(--muted);
       text-decoration: none;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       transition: color 0.2s;
     }
-
     .nav-links a:hover { color: var(--accent); }
 
-    /* ── HERO ── */
+    /* HERO */
     #hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding-top: 80px;
-    }
-
-    .hero-left {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: 6rem 4rem 6rem 4rem;
-      border-right: 1px solid var(--line);
+      justify-content: flex-end;
+      padding: 0 3rem 5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
     }
-
-    .hero-tag {
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.5;
+      mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+    }
+    .hero-eyebrow {
       font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      font-size: 12px;
       color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
       margin-bottom: 1.5rem;
       opacity: 0;
       animation: fadeUp 0.6s ease forwards 0.2s;
     }
-
-    .hero-name {
+    h1.hero-name {
       font-family: var(--serif);
-      font-size: clamp(3rem, 5vw, 5rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      line-height: 0.95;
       color: var(--ink);
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.35s;
+      animation: fadeUp 0.7s ease forwards 0.35s;
     }
-
-    .hero-name em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-desc {
-      font-size: 1.05rem;
+    h1.hero-name em { font-style: italic; color: var(--accent); }
+    .hero-tagline {
+      font-size: 16px;
       color: var(--muted);
-      font-weight: 300;
-      max-width: 420px;
-      margin-bottom: 3rem;
+      font-weight: 400;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
       opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.5s;
+      animation: fadeUp 0.7s ease forwards 0.5s;
     }
-
-    .hero-links {
+    .hero-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.6s;
+    }
+    .hero-meta span::before { content: '— '; color: var(--line); }
+    .hero-cta {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
       opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.65s;
+      animation: fadeUp 0.7s ease forwards 0.7s;
     }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.4rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-radius: 2px;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-
     .btn-primary {
-      background: var(--ink);
-      color: var(--bg);
-      border: 1px solid var(--ink);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--line);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--ink);
-    }
-
-    .hero-right {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 6rem 4rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.8s;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin-bottom: 3rem;
-    }
-
-    .stat-box {
-      background: var(--card-bg);
-      padding: 1.5rem;
-      border: 1px solid var(--line);
-    }
-
-    .stat-number {
-      font-family: var(--serif);
-      font-size: 2.5rem;
-      line-height: 1;
-      color: var(--ink);
-      margin-bottom: 0.25rem;
-    }
-
-    .stat-label {
       font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+      font-size: 12px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .hero-location {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
+      padding: 0.75rem 1.75rem;
       background: var(--accent);
-      display: inline-block;
-      animation: pulse 2s infinite;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--ink); transform: translateY(-1px); }
+    .btn-ghost {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    /* METRICS */
+    .metrics-strip {
+      background: var(--accent2);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.85s;
+    }
+    .metric {
+      padding: 2rem 2.5rem;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    .metric:last-child { border-right: none; }
+    .metric-value {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .metric-value span {
+      font-family: var(--mono);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .metric-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
-    /* ── SECTIONS ── */
-    section {
-      padding: 6rem 4rem;
-      border-top: 1px solid var(--line);
-    }
-
+    /* SECTIONS */
+    section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
     .section-header {
       display: flex;
       align-items: baseline;
       gap: 1.5rem;
       margin-bottom: 3.5rem;
-    }
-
-    .section-num {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
-    }
-
-    .section-title {
-      font-family: var(--serif);
-      font-size: 2.2rem;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-    }
-
-    /* ── ABOUT ── */
-    #about {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 6rem;
-      align-items: start;
-    }
-
-    #about .about-left { padding-top: 0.5rem; }
-
-    .about-body p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      font-weight: 300;
-      margin-bottom: 1.25rem;
-      max-width: 600px;
-    }
-
-    .about-body p strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 2rem;
-    }
-
-    .skill-tag {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      border-radius: 2px;
-      transition: all 0.2s;
-    }
-
-    .skill-tag:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── EXPERIENCE ── */
-    #experience { padding: 6rem 4rem; }
-
-    .exp-list { display: flex; flex-direction: column; gap: 0; }
-
-    .exp-item {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 3rem;
-      padding: 2rem 0;
+      padding-bottom: 1rem;
       border-bottom: 1px solid var(--line);
-      transition: background 0.2s;
     }
+    .section-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
+    h2 { font-family: var(--serif); font-size: 2.2rem; color: var(--ink); font-weight: 400; }
+    .section-alt { background: var(--card-bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 
-    .exp-item:first-child { border-top: 1px solid var(--line); }
-
-    .exp-date {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.06em;
-      padding-top: 0.25rem;
-    }
-
-    .exp-role {
-      font-family: var(--sans);
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--ink);
-      margin-bottom: 0.15rem;
-    }
-
-    .exp-org {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.06em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .exp-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 300;
-      max-width: 560px;
-    }
-
-    /* ── PROJECTS ── */
-    #projects { padding: 6rem 4rem; }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-    }
-
-    .project-card {
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 300px; gap: 5rem; align-items: start; }
+    .about-text p { margin-bottom: 1.2rem; color: var(--ink); }
+    .about-text strong { color: var(--ink); font-weight: 600; }
+    .highlight-box {
       background: var(--card-bg);
-      padding: 2.5rem;
       border: 1px solid var(--line);
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 0;
-      background: var(--accent);
-      transition: height 0.3s ease;
-    }
-
-    .project-card:hover::before { height: 100%; }
-    .project-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-    }
-
-    .project-num {
+      border-left: 3px solid var(--accent);
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
       font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
+      font-size: 12px;
       color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 1.25rem;
+      line-height: 1.6;
     }
-
-    .project-name {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      color: var(--ink);
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
-    }
-
-    .project-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-weight: 300;
-      margin-bottom: 1.5rem;
-      line-height: 1.65;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .project-tag {
+    .skills-cloud { display: flex; flex-direction: column; gap: 1.4rem; }
+    .skill-group-label {
       font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      padding: 0.2rem 0.6rem;
-      background: var(--bg);
-      color: var(--muted);
-      border-radius: 2px;
-    }
-
-    /* ── PUBLICATION ── */
-    #publications { padding: 6rem 4rem; }
-
-    .pub-card {
-      background: var(--accent2);
-      color: #fff;
-      padding: 3rem;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .pub-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 0.75rem;
-    }
-
-    .pub-title {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      line-height: 1.25;
-      color: #fff;
-      margin-bottom: 0.75rem;
-    }
-
-    .pub-meta {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 0.06em;
-    }
-
-    .pub-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.3);
-      padding: 0.75rem 1.25rem;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .pub-link:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.6);
-    }
-
-    /* ── AWARDS ── */
-    #awards { padding: 6rem 4rem; }
-
-    .awards-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-    }
-
-    .award-item {
-      padding: 2rem;
-      border: 1px solid var(--line);
-      background: var(--card-bg);
-      transition: border-color 0.2s;
-    }
-
-    .award-item:hover { border-color: var(--accent); }
-
-    .award-year {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+      font-size: 10px;
       color: var(--accent);
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
-
-    .award-name {
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 0.25rem;
-    }
-
-    .award-org {
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: 11px;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--line);
       color: var(--muted);
+      background: var(--card-bg);
+      letter-spacing: 0.04em;
+      transition: border-color 0.15s, color 0.15s;
     }
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ── CONTACT ── */
-    #contact {
-      padding: 6rem 4rem;
+    /* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
+      grid-template-columns: 200px 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
     }
-
-    .contact-left .section-title {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 196px; top: 0; bottom: 0;
+      border-right: 1px solid var(--line);
     }
-
-    .contact-left p {
-      color: var(--muted);
-      font-weight: 300;
-      margin-bottom: 2rem;
+    .timeline-date { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.06em; padding-top: 0.2rem; text-align: right; }
+    .timeline-company { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 0.3rem; text-align: right; }
+    .timeline-title { font-family: var(--sans); font-size: 16px; color: var(--ink); font-weight: 600; margin-bottom: 0.6rem; }
+    .timeline-body { font-size: 14px; color: var(--ink); line-height: 1.75; }
+    .timeline-body ul { list-style: none; margin-top: 0.6rem; }
+    .timeline-body li { padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem; color: var(--muted); }
+    .timeline-body li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+    .timeline-pub {
+      display: inline-block;
+      margin-top: 0.8rem;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(196,84,26,0.3);
+      padding-bottom: 1px;
+      transition: border-color 0.15s;
     }
+    .timeline-pub:hover { border-color: var(--accent); }
 
-    .contact-links {
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); }
+    .project-card {
+      background: var(--card-bg);
+      padding: 2.2rem;
+      text-decoration: none;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
     }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      text-decoration: none;
-      color: var(--ink);
-      font-size: 0.9rem;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--line);
-      transition: all 0.2s;
-      background: var(--card-bg);
+    .project-card:hover { background: var(--bg); }
+    .project-card::after {
+      content: '↗';
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 14px;
+      color: var(--line);
+      transition: color 0.2s, transform 0.2s;
     }
-
-    .contact-link:hover {
-      border-color: var(--accent);
+    .project-card:hover::after { color: var(--accent); transform: translate(2px,-2px); }
+    .project-num { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.12em; margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: 1.4rem; color: var(--ink); font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; }
+    .project-metric {
+      font-family: var(--mono);
+      font-size: 11px;
       color: var(--accent);
+      background: rgba(196,84,26,0.06);
+      border: 1px solid rgba(196,84,26,0.2);
+      padding: 0.3rem 0.7rem;
+      display: inline-block;
+      margin-bottom: 1rem;
+      letter-spacing: 0.04em;
     }
+    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.2rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; }
 
-    .contact-link-label {
+    /* RESEARCH */
+    .paper-card { background: var(--card-bg); border: 1px solid var(--line); padding: 2.5rem; display: flex; gap: 3rem; align-items: flex-start; }
+    .paper-badge {
       font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-left: auto;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 4rem;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    footer p {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
+      font-size: 11px;
+      color: var(--accent);
+      border: 1px solid rgba(196,84,26,0.3);
+      padding: 0.3rem 0.7rem;
+      white-space: nowrap;
       letter-spacing: 0.06em;
+      background: rgba(196,84,26,0.04);
     }
+    .paper-title { font-family: var(--serif); font-size: 1.35rem; color: var(--ink); margin-bottom: 0.6rem; }
+    .paper-authors { font-size: 13px; color: var(--muted); margin-bottom: 0.8rem; line-height: 1.6; }
+    .paper-authors strong { color: var(--ink); font-weight: 500; }
+    .paper-desc { font-size: 14px; color: var(--ink); margin-bottom: 1.2rem; }
+    .paper-link { font-family: var(--mono); font-size: 12px; color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(196,84,26,0.3); letter-spacing: 0.06em; transition: border-color 0.15s; }
+    .paper-link:hover { border-color: var(--accent); }
 
-    /* ── ANIMATIONS ── */
+    /* AWARDS */
+    .awards-list { display: flex; flex-direction: column; }
+    .award-item { display: grid; grid-template-columns: 80px 1fr; gap: 2rem; padding: 1.8rem 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .award-year { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+    .award-title { font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 0.2rem; }
+    .award-org { font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* CONTACT */
+    #contact { background: var(--ink); border-top: 1px solid var(--line); }
+    #contact section { max-width: 1100px; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-tagline { font-family: var(--serif); font-size: 2.4rem; color: #fff; line-height: 1.15; margin-bottom: 1rem; }
+    .contact-tagline em { color: var(--accent); font-style: italic; }
+    .contact-body { color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 1.5rem; }
+    .open-to { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.35); line-height: 2.2; }
+    .open-to-pill { display: inline-block; color: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.12); padding: 0.2rem 0.6rem; margin: 0.2rem 0.3rem 0.2rem 0; letter-spacing: 0.05em; }
+    .contact-links { display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.08); }
+    .contact-link { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; background: rgba(255,255,255,0.03); text-decoration: none; transition: background 0.2s; }
+    .contact-link:hover { background: rgba(196,84,26,0.15); }
+    .contact-link-label { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.12em; text-transform: uppercase; width: 70px; }
+    .contact-link-value { font-size: 14px; color: rgba(255,255,255,0.65); flex: 1; }
+    .contact-link-arrow { color: rgba(255,255,255,0.2); font-family: var(--mono); transition: color 0.2s; }
+    .contact-link:hover .contact-link-arrow { color: var(--accent); }
+
+    /* FOOTER */
+    footer { padding: 1.5rem 3rem; border-top: 1px solid rgba(255,255,255,0.07); background: var(--ink); display: flex; justify-content: space-between; align-items: center; }
+    footer span { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.22); letter-spacing: 0.06em; }
+
+    /* ANIMATIONS */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.5rem; }
-      #hero { grid-template-columns: 1fr; }
-      .hero-left { padding: 5rem 1.5rem 2rem; border-right: none; }
-      .hero-right { padding: 2rem 1.5rem 4rem; }
-      #about { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 1.5rem; }
-      #experience, #projects, #publications, #awards, #contact { padding: 4rem 1.5rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .awards-list { grid-template-columns: 1fr; }
-      .pub-card { grid-template-columns: 1fr; gap: 1.5rem; }
-      #contact { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem 4rem; }
       section { padding: 4rem 1.5rem; }
-      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
-      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .timeline-item::before { display: none; }
+      .timeline-date, .timeline-company { text-align: left; }
+      .timeline-company { margin-bottom: 0.8rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .paper-card { flex-direction: column; gap: 1.5rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .metrics-strip { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#hero" class="nav-logo">Neha Navarkar</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#publications">Research</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<nav>
+  <a href="#hero" class="nav-logo">NN_</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#publications">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-left">
-      <p class="hero-tag">Robotics &amp; Autonomous Systems</p>
-      <h1 class="hero-name">Neha<br/><em>Navarkar</em></h1>
-      <p class="hero-desc">
-        Building robots that navigate, perceive, and act in the real world.
-        MS Robotics at NYU · Research at CILVR Lab · Published researcher.
-      </p>
-      <div class="hero-links">
-        <a href="assets/pdf/Neha_Navarkar_Resume.pdf" class="btn btn-primary" target="_blank">Download CV</a>
-        <a href="https://github.com/nehanavarkar" class="btn btn-outline" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/nehanavarkar" class="btn btn-outline" target="_blank">LinkedIn</a>
-      </div>
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div style="position:relative;z-index:1;">
+    <p class="hero-eyebrow">Robotics &amp; Autonomous Systems · Brooklyn, NY</p>
+    <h1 class="hero-name">Neha<br><em>Navarkar</em></h1>
+    <p class="hero-tagline">I build autonomous navigation systems for real robots — SLAM, planning, and robot learning on physical hardware.</p>
+    <div class="hero-meta">
+      <span>MS Robotics · NYU, May 2026</span>
+      <span>Research · CILVR Lab</span>
+      <span>Published · arXiv:2602.11150</span>
     </div>
-    <div class="hero-right">
-      <div class="hero-stats">
-        <div class="stat-box">
-          <div class="stat-number">3.7</div>
-          <div class="stat-label">GPA / 4.0</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">1</div>
-          <div class="stat-label">Publication</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">4+</div>
-          <div class="stat-label">Projects</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">1</div>
-          <div class="stat-label">Hackathon Winner</div>
-        </div>
-      </div>
-      <p class="hero-location">
-        <span class="dot"></span>
-        Brooklyn, New York · Open to opportunities
-      </p>
+    <div class="hero-cta">
+      <a href="assets/pdf/Neha_Navarkar_Resume.pdf" class="btn-primary">Download CV</a>
+      <a href="https://github.com/nehanavarkar" class="btn-ghost">GitHub</a>
+      <a href="https://linkedin.com/in/nehanavarkar" class="btn-ghost">LinkedIn</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about-left">
-      <div class="section-header">
-        <span class="section-num">01</span>
-        <h2 class="section-title">About</h2>
-      </div>
+<div class="metrics-strip reveal">
+  <div class="metric">
+    <div class="metric-value">12<span>mm</span></div>
+    <div class="metric-label">Odometry accuracy · 10 loops</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">&lt;1<span>s</span></div>
+    <div class="metric-label">Dynamic obstacle replanning</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">95<span>%</span></div>
+    <div class="metric-label">Autonomous docking success</div>
+  </div>
+  <div class="metric">
+    <div class="metric-value">3.7<span>/4</span></div>
+    <div class="metric-label">GPA · MS Robotics · NYU</div>
+  </div>
+</div>
+
+<div id="about">
+  <section>
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2>About</h2>
     </div>
-    <div class="about-body reveal">
-      <p>
-        I'm a <strong>Robotics and Mechatronics Engineering MS student at NYU</strong>,
-        working as a Research Assistant at the Generalizable Robotics &amp; AI Lab (CILVR).
-        My work sits at the intersection of autonomous navigation, visual SLAM, and
-        embedded perception — building systems that work in the real world.
-      </p>
-      <p>
-        Previously I was a Graduate Apprentice at <strong>Bosch Chassis Systems</strong>,
-        where I led 23 digitization projects and won 1st place in Bosch's MDP Global
-        Championship. I'm excited about making capable robots accessible and affordable.
-      </p>
-      <p>
-        I'm actively looking for <strong>full-time roles</strong> in robotics software
-        engineering.
-      </p>
-      <div class="skills-grid">
-        <span class="skill-tag">ROS</span>
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">C++</span>
-        <span class="skill-tag">SLAM</span>
-        <span class="skill-tag">Sensor Fusion</span>
-        <span class="skill-tag">PyTorch</span>
-        <span class="skill-tag">OpenCV</span>
-        <span class="skill-tag">Jetson</span>
-        <span class="skill-tag">Docker</span>
-        <span class="skill-tag">Linux</span>
-        <span class="skill-tag">Gazebo</span>
-        <span class="skill-tag">ZED 2i</span>
-        <span class="skill-tag">FOC Motor Control</span>
-        <span class="skill-tag">ESP32</span>
-        <span class="skill-tag">Isaac Lab</span>
-        <span class="skill-tag">PPO / RL</span>
-        <span class="skill-tag">Kivy</span>
-        <span class="skill-tag">ZeroMQ</span>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Robotics and Mechatronics Engineering MS student at NYU</strong>, working as a Research Assistant at the Generalizable Robotics &amp; AI Lab (CILVR). My focus is building navigation and perception systems that actually work in the real world — not just in simulation.</p>
+        <p>My main project is the <strong>YOR mobile manipulator</strong>: an open-source, sub-$10K platform for mobile manipulation research. I built its entire navigation stack — from VINS-Mono SLAM and voxel mapping to path planning and pure-pursuit control — validated to 12mm odometry accuracy in live indoor environments.</p>
+        <div class="highlight-box">arXiv:2602.11150 · YOR: Your Own Mobile Manipulator<br>Contributing author · Feb 2026</div>
+        <p>Before NYU, I was a Graduate Apprentice at <strong>Bosch Chassis Systems</strong>, where I won 1st place in Bosch's MDP Global Championship — an internal innovation competition across international teams — for a sensor-fusion analytics pipeline.</p>
+        <p>I'm actively looking for <strong>full-time roles</strong> in robotics software engineering, autonomy, or robot learning. Available May 2026.</p>
+      </div>
+      <div class="skills-cloud reveal">
+        <div>
+          <p class="skill-group-label">Autonomy &amp; SLAM</p>
+          <div class="skill-tags">
+            <span class="tag">ROS2</span><span class="tag">VINS-Mono</span><span class="tag">ZED 2i</span><span class="tag">A* Planning</span><span class="tag">Sensor Fusion</span><span class="tag">Voxel Mapping</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Robot Learning</p>
+          <div class="skill-tags">
+            <span class="tag">Isaac Lab</span><span class="tag">PPO / RL</span><span class="tag">PyTorch</span><span class="tag">Sim-to-Real</span><span class="tag">JAX</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Perception</p>
+          <div class="skill-tags">
+            <span class="tag">OpenCV</span><span class="tag">YOLO</span><span class="tag">Rerun</span><span class="tag">CUDA</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Embedded &amp; Hardware</p>
+          <div class="skill-tags">
+            <span class="tag">Jetson</span><span class="tag">FOC Motor</span><span class="tag">ESP32</span><span class="tag">Qi Wireless</span><span class="tag">Fusion 360</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Dev</p>
+          <div class="skill-tags">
+            <span class="tag">Python</span><span class="tag">C++</span><span class="tag">Docker</span><span class="tag">Linux</span><span class="tag">Gazebo</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+</div>
 
-  <!-- EXPERIENCE -->
-  <section id="experience">
+<div id="experience" class="section-alt">
+  <section>
     <div class="section-header reveal">
       <span class="section-num">02</span>
-      <h2 class="section-title">Experience</h2>
+      <h2>Experience</h2>
     </div>
-    <div class="exp-list">
-      <div class="exp-item reveal">
-        <div class="exp-date">May 2025 — Present</div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
         <div>
-          <div class="exp-role">Research Assistant</div>
-          <div class="exp-org">NYU CILVR Lab · New York</div>
-          <p class="exp-desc">Built a visual SLAM-based autonomous navigation stack (ZED 2i, RGB-D) achieving real-time localization, 3D mapping, and point-to-point navigation at 30Hz on Jetson/NUC. Implemented A*/D*-Lite planning with pure-pursuit path following.</p>
+          <div class="timeline-date">May 2025 — Present</div>
+          <div class="timeline-company">NYU CILVR Lab</div>
+        </div>
+        <div>
+          <div class="timeline-title">Research Assistant — Generalizable Robotics &amp; AI</div>
+          <div class="timeline-body">
+            <ul>
+              <li>Built full autonomous navigation stack for YOR: VINS-Mono SLAM, real-time voxel mapping (5Hz), weighted A* planning, pure-pursuit control — validated at 12mm odometry accuracy over 10 loops on Jetson/NUC hardware.</li>
+              <li>Implemented dynamic obstacle replanning (&lt;1s replan time) via live voxel occupancy updates; multi-threaded Python pipeline with live visualization in Rerun and Viser.</li>
+              <li>Whole-body coordination: 16mm end-effector deviation during simultaneous base motion.</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2602.11150" class="timeline-pub" target="_blank">arXiv:2602.11150 · YOR: Your Own Mobile Manipulator ↗</a>
+          </div>
         </div>
       </div>
-      <div class="exp-item reveal">
-        <div class="exp-date">Apr 2025 — Present</div>
+      <div class="timeline-item reveal">
         <div>
-          <div class="exp-role">Graduate Assistant — VIP STEP</div>
-          <div class="exp-org">New York University · New York</div>
-          <p class="exp-desc">Designed gait patterns and embedded perception modules for bipedal robotic mobility on uneven terrain.</p>
+          <div class="timeline-date">Jan 2025 — Present</div>
+          <div class="timeline-company">New York University</div>
+        </div>
+        <div>
+          <div class="timeline-title">Graduate Assistant — VIP STEP &amp; MakerSpace</div>
+          <div class="timeline-body">
+            <ul>
+              <li>Designed gait patterns and embedded perception modules for bipedal robotic mobility on uneven terrain (VIP STEP program).</li>
+              <li>Authored SOPs and led hands-on training for 50+ students on UR5 robotic arm programming and safety.</li>
+            </ul>
+          </div>
         </div>
       </div>
-      <div class="exp-item reveal">
-        <div class="exp-date">Jan 2025 — Sep 2025</div>
+      <div class="timeline-item reveal">
         <div>
-          <div class="exp-role">Graduate Assistant — MakerSpace</div>
-          <div class="exp-org">New York University · New York</div>
-          <p class="exp-desc">Led robotics training and authored SOPs for 50+ students on UR5 robotic arm operation.</p>
+          <div class="timeline-date">Sep 2023 — Aug 2024</div>
+          <div class="timeline-company">Bosch · Chakan, India</div>
         </div>
-      </div>
-      <div class="exp-item reveal">
-        <div class="exp-date">Sep 2023 — Aug 2024</div>
         <div>
-          <div class="exp-role">Graduate Apprentice</div>
-          <div class="exp-org">Bosch Chassis Systems · Chakan, India</div>
-          <p class="exp-desc">Led 23 digitization projects. Won 1st place in Bosch's MDP Global Championship. Deployed sensor-fusion analytics reducing discrepancies by 20% and paper usage by 53%.</p>
+          <div class="timeline-title">Graduate Apprentice — Chassis Systems</div>
+          <div class="timeline-body">
+            <ul>
+              <li>Won 1st place at Bosch's MDP Global Championship — internal innovation competition across international teams — for a sensor-fusion analytics pipeline reducing measurement discrepancies by 20%.</li>
+              <li>Owned end-to-end delivery of 5 high-impact digitization projects: requirements, implementation, and stakeholder sign-off.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </section>
+</div>
 
-  <!-- PROJECTS -->
-  <section id="projects">
+<div id="projects">
+  <section>
     <div class="section-header reveal">
       <span class="section-num">03</span>
-      <h2 class="section-title">Projects</h2>
+      <h2>Projects</h2>
     </div>
     <div class="projects-grid">
-      <a href="projects/slam.html" class="project-card reveal" style="text-decoration:none;color:inherit">
-        <div class="project-num">Project 01 →</div>
-        <h3 class="project-name">Visual SLAM Navigation Stack</h3>
-        <p class="project-desc">Real-time autonomous navigation for indoor robots — 3D mapping, A*/D*-Lite planning, and pure-pursuit path following running at 30Hz on Jetson hardware.</p>
-        <div class="project-tags">
-          <span class="project-tag">ROS</span>
-          <span class="project-tag">Python</span>
-          <span class="project-tag">ZED 2i</span>
-          <span class="project-tag">SLAM</span>
-          <span class="project-tag">Jetson</span>
-        </div>
+      <a href="projects/slam.html" class="project-card reveal">
+        <div class="project-num">Project 01 · Research · NYU CILVR</div>
+        <div class="project-title">Visual SLAM Navigation Stack</div>
+        <div class="project-metric">12mm odometry accuracy over 10 loops</div>
+        <div class="project-desc">Full autonomous navigation pipeline for the YOR mobile manipulator — VINS-Mono SLAM, real-time voxel mapping, weighted A* planning, and pure-pursuit control. Dynamic obstacle replanning in under 1 second.</div>
+        <div class="project-tags"><span class="tag">ROS</span><span class="tag">VINS-Mono</span><span class="tag">ZED 2i</span><span class="tag">Python</span><span class="tag">Jetson</span></div>
       </a>
-      <a href="projects/cpr.html" class="project-card reveal" style="text-decoration:none;color:inherit">
-        <div class="project-num">Project 02 →</div>
-        <h3 class="project-name">CPR Training Robot</h3>
-        <p class="project-desc">AHA-compliant CPR training machine using FOC-controlled BLDC motor with real-time torque feedback. Achieved compression depth accuracy within 5% of target.</p>
-        <div class="project-tags">
-          <span class="project-tag">Raspberry Pi 5</span>
-          <span class="project-tag">FOC</span>
-          <span class="project-tag">AK60-6</span>
-          <span class="project-tag">Python</span>
-        </div>
+      <a href="projects/go2.html" class="project-card reveal">
+        <div class="project-num">Project 02 · RL · ROB-GY 6323</div>
+        <div class="project-title">Go2 RL Locomotion</div>
+        <div class="project-metric">Sim-to-real with per-episode friction randomization</div>
+        <div class="project-desc">Trained a Unitree Go2 quadruped in Isaac Lab to track commanded velocity — torque-based PD control, gait-phase clock inputs, multi-term reward shaping, and actuator friction randomization for sim-to-real robustness.</div>
+        <div class="project-tags"><span class="tag">Isaac Lab</span><span class="tag">PPO</span><span class="tag">PyTorch</span><span class="tag">Unitree Go2</span></div>
       </a>
-      <a href="projects/go2.html" class="project-card reveal" style="text-decoration:none;color:inherit">
-        <div class="project-num">Project 03 →</div>
-        <h3 class="project-name">Go2 RL Locomotion</h3>
-        <p class="project-desc">Trained a Unitree Go2 quadruped in Isaac Lab to follow commanded velocity with torque-based PD control, gait phase clocks, reward shaping, and sim-to-real friction randomization.</p>
-        <div class="project-tags">
-          <span class="project-tag">Isaac Lab</span>
-          <span class="project-tag">PPO</span>
-          <span class="project-tag">Python</span>
-          <span class="project-tag">Unitree Go2</span>
-        </div>
+      <a href="projects/cpr.html" class="project-card reveal">
+        <div class="project-num">Project 03 · Hardware</div>
+        <div class="project-title">CPR Training Machine</div>
+        <div class="project-metric">Compression depth accuracy within 5% of AHA target</div>
+        <div class="project-desc">Portable automated CPR device with slider-crank mechanism and FOC torque feedback. Full stack: C/Python with ZeroMQ IPC, Kivy touchscreen GUI, OpenCV patient placement, and spontaneous breathing detection via current sensing.</div>
+        <div class="project-tags"><span class="tag">Raspberry Pi 5</span><span class="tag">FOC</span><span class="tag">AK60-6</span><span class="tag">OpenCV</span></div>
       </a>
-      <a href="projects/homing.html" class="project-card reveal" style="text-decoration:none;color:inherit">
-        <div class="project-num">Project 04 →</div>
-        <h3 class="project-name">Autonomous Homing Robot</h3>
-        <p class="project-desc">Self-docking mobile robot with Qi wireless charging, ultrasonic homing (3m range), and IR line following. ~95% docking success across multi-room environments.</p>
-        <div class="project-tags">
-          <span class="project-tag">Qi Wireless</span>
-          <span class="project-tag">Ultrasonic</span>
-          <span class="project-tag">IR Sensors</span>
-          <span class="project-tag">Embedded C</span>
-        </div>
+      <a href="projects/homing.html" class="project-card reveal">
+        <div class="project-num">Project 04 · Embedded</div>
+        <div class="project-title">Autonomous Homing Robot</div>
+        <div class="project-metric">~95% docking success across multi-room environments</div>
+        <div class="project-desc">Self-docking mobile robot with Qi wireless charging, ultrasonic homing (3m range), and IR line following. Tested across multiple room configurations with autonomous return-to-dock behavior.</div>
+        <div class="project-tags"><span class="tag">Qi Wireless</span><span class="tag">Ultrasonic</span><span class="tag">IR</span><span class="tag">Embedded C</span></div>
       </a>
     </div>
   </section>
+</div>
 
-  <!-- PUBLICATION -->
-  <section id="publications">
+<div id="publications" class="section-alt">
+  <section>
     <div class="section-header reveal">
       <span class="section-num">04</span>
-      <h2 class="section-title">Research</h2>
+      <h2>Research</h2>
     </div>
-    <div class="pub-card reveal">
+    <div class="paper-card reveal">
+      <div style="flex-shrink:0;"><div class="paper-badge">arXiv · Feb 2026</div></div>
       <div>
-        <div class="pub-label">arXiv · February 2026</div>
-        <h3 class="pub-title">YOR: Your Own Mobile Manipulator<br/>for Generalizable Robotics</h3>
-        <p class="pub-meta">Manan H Anjaria, Mehmet Enes Erciyes, Vedant Ghatnekar, <strong style="color:#fff">Neha Navarkar</strong>, Haritheja Etukuru, Xiaole Jiang, Kanad Patel, Dhawal Kabra, Nicholas Wojno, Radhika Ajay Prayage, Soumith Chintala, Lerrel Pinto, Nur Muhammad Mahi Shafiullah, Zichen Jeff Cui · arXiv:2602.11150</p>
+        <div class="paper-title">YOR: Your Own Mobile Manipulator for Generalizable Robotics</div>
+        <div class="paper-authors">Manan H Anjaria, Mehmet Enes Erciyes, Vedant Ghatnekar, <strong>Neha Navarkar</strong>, Haritheja Etukuru, Xiaole Jiang, Kanad Patel, Dhawal Kabra, Nicholas Wojno, Radhika Ajay Prayage, Soumith Chintala, Lerrel Pinto, Nur Muhammad Mahi Shafiullah, Zichen Jeff Cui</div>
+        <div class="paper-desc">Open-source mobile manipulator (&lt;$10K) with omnidirectional base, telescopic lift, and bimanual arms designed for whole-body coordination and autonomous navigation.</div>
+        <a href="https://arxiv.org/abs/2602.11150" class="paper-link" target="_blank">arXiv:2602.11150 → View Paper</a>
       </div>
-      <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="pub-link">
-        View Paper →
-      </a>
     </div>
   </section>
+</div>
 
-  <!-- AWARDS -->
-  <section id="awards">
+<div id="awards">
+  <section>
     <div class="section-header reveal">
       <span class="section-num">05</span>
-      <h2 class="section-title">Awards</h2>
+      <h2>Awards</h2>
     </div>
     <div class="awards-list">
       <div class="award-item reveal">
         <div class="award-year">2025</div>
-        <div class="award-name">Best Agentic Use</div>
-        <div class="award-org">Innate Robotics — Le Robot Hackathon</div>
+        <div>
+          <div class="award-title">Best Agentic Use</div>
+          <div class="award-org">Innate Robotics — Le Robot Hackathon<br>OpenAI-powered robotic poker player with gesture-based bet execution and real-time win-rate strategy adaptation</div>
+        </div>
       </div>
-      <a href="https://www.hackster.io/anjariamanan01/cutana-a-vegetable-chopping-robot-c12f6e" target="_blank" class="award-item reveal" style="text-decoration:none;color:inherit">
-        <div class="award-year">2025</div>
-        <div class="award-name">Cutana — Home Robotics</div>
-        <div class="award-org">Seeed Studio Home Robotics Hackathon · Participant</div>
-      </a>
       <div class="award-item reveal">
         <div class="award-year">2024</div>
-        <div class="award-name">1st Place — MDP Global Championship</div>
-        <div class="award-org">Bosch Internal Innovation Competition</div>
+        <div>
+          <div class="award-title">1st Place — MDP Global Championship</div>
+          <div class="award-org">Bosch Internal Innovation Competition · Sensor-fusion analytics pipeline, competing across international teams</div>
+        </div>
       </div>
     </div>
   </section>
+</div>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-left reveal">
-      <div class="section-header">
-        <span class="section-num">06</span>
-        <h2 class="section-title">Let's Talk</h2>
-      </div>
-      <p>I'm actively looking for full-time roles in robotics software engineering. If you're building something interesting, reach out.</p>
-      <a href="mailto:nehanavarkar@nyu.edu" class="btn btn-primary">nehanavarkar@nyu.edu</a>
+<div id="contact">
+  <section>
+    <div class="section-header reveal" style="border-bottom-color:rgba(255,255,255,0.1);">
+      <span class="section-num" style="color:rgba(255,255,255,0.3);">06</span>
+      <h2 style="color:#fff;">Let's Talk</h2>
     </div>
-    <div class="contact-links reveal">
-      <a href="/cdn-cgi/l/email-protection#2d4348454c434c5b4c5f464c5f6d43545803484958" class="contact-link">
-        <span class="__cf_email__" data-cfemail="5f313a373e313e293e2d343e2d1f31262a713a3b2a">[email&#160;protected]</span>
-        <span class="contact-link-label">Email</span>
-      </a>
-      <a href="https://linkedin.com/in/nehanavarkar" target="_blank" class="contact-link">
-        linkedin.com/in/nehanavarkar
-        <span class="contact-link-label">LinkedIn</span>
-      </a>
-      <a href="https://github.com/nehanavarkar" target="_blank" class="contact-link">
-        github.com/nehanavarkar
-        <span class="contact-link-label">GitHub</span>
-      </a>
-      <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="contact-link">
-        arXiv:2602.11150
-        <span class="contact-link-label">Paper</span>
-      </a>
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-tagline">Building robots that<br><em>actually work.</em></div>
+        <p class="contact-body">I'm actively looking for full-time roles starting May 2026. If you're working on hard robotics problems, I'd love to hear from you.</p>
+        <div class="open-to">
+          Open to:
+          <span class="open-to-pill">Robotics Software Eng.</span>
+          <span class="open-to-pill">Autonomy / Self-Driving</span>
+          <span class="open-to-pill">Robot Learning / RL</span>
+        </div>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:nehanavarkar@nyu.edu" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-value">nehanavarkar@nyu.edu</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://linkedin.com/in/nehanavarkar" class="contact-link" target="_blank">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-value">linkedin.com/in/nehanavarkar</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://github.com/nehanavarkar" class="contact-link" target="_blank">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-value">github.com/nehanavarkar</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a href="https://arxiv.org/abs/2602.11150" class="contact-link" target="_blank">
+          <span class="contact-link-label">Paper</span>
+          <span class="contact-link-value">arXiv:2602.11150</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
     </div>
   </section>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 Neha Navarkar</p>
-    <p>Brooklyn, New York</p>
-  </footer>
+<footer>
+  <span>© 2026 Neha Navarkar</span>
+  <span>Brooklyn, New York</span>
+</footer>
 
-  <!-- <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script> -->
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal')
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    reveals.forEach(el => observer.observe(el));
-  </script>
-
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => { if (el.isIntersecting) el.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
