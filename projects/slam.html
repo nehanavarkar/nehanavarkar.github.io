@@ -33,9 +33,6 @@
     .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
     .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
     .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
-    .video-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; padding: 3rem; }
-    .video-placeholder p { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-    .video-placeholder .icon { font-size: 3rem; opacity: 0.3; }
     .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
     .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
     .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
@@ -71,10 +68,8 @@
     .btn-outline:hover { border-color: var(--ink); }
     .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
     @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
-      .content { padding: 3rem 1.5rem; }
-      .arch-grid, .result-grid, .two-col { grid-template-columns: 1fr; }
+      nav { padding: 1rem 1.5rem; } .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; } .arch-grid, .result-grid, .two-col { grid-template-columns: 1fr; }
       .pipeline-step { grid-template-columns: 1fr; gap: 0.5rem; }
       .pub-banner { grid-template-columns: 1fr; gap: 1.5rem; }
       footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
@@ -87,95 +82,69 @@
     <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
   </nav>
 
-  <!-- HERO -->
   <div class="hero">
     <div>
       <p class="project-label">Project 01 · Research · NYU CILVR Lab · May 2025 – Present</p>
-      <h1 class="project-title">Visual SLAM<br/>Navigation Stack<br/>for YOR</h1>
-      <p class="project-summary">A full autonomous navigation pipeline for the YOR mobile manipulator — visual-inertial SLAM, real-time voxel mapping, weighted A* planning, and pure-pursuit control running on Jetson/NUC hardware. Demonstrated 12mm odometry accuracy over 10 loops in real-world indoor environments. Part of the published YOR platform (arXiv:2602.11150).</p>
+      <h1 class="project-title">Visual-Inertial SLAM<br/>Navigation Stack<br/>for YOR</h1>
+      <p class="project-summary">A full autonomous navigation pipeline for the YOR mobile manipulator — ZED SDK visual-inertial odometry, real-time voxel mapping, weighted A* planning, and pure-pursuit control running on Jetson/NUC hardware. Demonstrated 12mm odometry accuracy over 10 loops in real-world indoor environments. Part of the published YOR platform (arXiv:2602.11150).</p>
       <div class="btns">
         <a href="https://arxiv.org/abs/2602.11150" target="_blank" class="btn btn-primary">View Paper</a>
         <a href="https://yourownrobot.ai" target="_blank" class="btn btn-outline">Project Website</a>
       </div>
     </div>
     <div class="project-meta">
-      <div class="meta-item">
-        <label>Lab</label>
-        <p>NYU CILVR — Generalizable Robotics & AI</p>
-      </div>
-      <div class="meta-item">
-        <label>Platform</label>
-        <p>YOR Mobile Manipulator</p>
-      </div>
+      <div class="meta-item"><label>Lab</label><p>NYU CILVR — Generalizable Robotics & AI</p></div>
+      <div class="meta-item"><label>Platform</label><p>YOR Mobile Manipulator</p></div>
       <div class="meta-item">
         <label>Stack</label>
         <div class="tags">
           <span class="tag">Python</span><span class="tag">C++</span>
-          <span class="tag">ZED 2i</span><span class="tag">VINS-Mono</span>
-          <span class="tag">ZED-SDK</span><span class="tag">Voxel Mapping</span>
-          <span class="tag">A* Planning</span><span class="tag">Pure Pursuit</span>
-          <span class="tag">Rerun</span><span class="tag">Viser</span>
-          <span class="tag">Jetson</span><span class="tag">NUC</span>
+          <span class="tag">ZED 2i</span><span class="tag">ZED SDK VIO</span>
+          <span class="tag">Voxel Mapping</span><span class="tag">A* Planning</span>
+          <span class="tag">Pure Pursuit</span><span class="tag">Rerun</span>
+          <span class="tag">Viser</span><span class="tag">Jetson</span><span class="tag">NUC</span>
         </div>
       </div>
     </div>
   </div>
 
   <div class="content">
-
-    <!-- DEMO -->
     <div class="section">
       <h2>Demo</h2>
       <div class="video-embed">
         <video controls style="width:100%;height:100%">
-    <source src="../assets/slam.mp4" type="video/mp4">
-  </video>
+          <source src="../assets/slam.mp4" type="video/mp4">
+        </video>
       </div>
       <p class="video-caption">YOR navigating autonomously — real-time 3D mapping, path planning, and dynamic obstacle avoidance in an indoor environment</p>
     </div>
 
-    <!-- CONTEXT -->
     <div class="section">
       <h2>Context</h2>
-      <p>This SLAM navigation stack is built as part of my research at NYU's Generalizable Robotics & AI Lab (CILVR), where I work as a Research Assistant on the YOR platform — an open-source, sub-$10K mobile manipulator designed to democratize mobile manipulation research.</p>
-      <p>YOR needs to navigate previously unseen indoor environments autonomously while simultaneously performing manipulation tasks with its two arms. The navigation stack is the foundation that makes this possible — without reliable localization and mapping, the arm control and task planning built on top of it falls apart.</p>
-      <p>The stack integrates visual-inertial SLAM for pose estimation, dense voxel mapping for environment representation, and classical planning for collision-free navigation — all running in real time on onboard hardware.</p>
+      <p>This navigation stack is built as part of my research at NYU's Generalizable Robotics & AI Lab (CILVR), where I work as a Research Assistant on the YOR platform — an open-source, sub-$10K mobile manipulator designed to democratize mobile manipulation research.</p>
+      <p>YOR needs to navigate previously unseen indoor environments autonomously while simultaneously performing manipulation tasks with its two arms. The navigation stack is the foundation that makes this possible — without reliable localization and mapping, the arm control and task planning built on top falls apart.</p>
+      <p>The stack uses the ZED SDK's built-in visual-inertial odometry for pose estimation, dense voxel mapping for environment representation, and classical planning for collision-free navigation — all running in real time on onboard hardware.</p>
     </div>
 
-    <!-- KEY RESULTS -->
     <div class="section">
       <h2>Key Results</h2>
       <div class="result-grid">
-        <div class="result-card">
-          <div class="result-num">12mm</div>
-          <div class="result-label">Odometry accuracy over 10 loops</div>
-        </div>
-        <div class="result-card">
-          <div class="result-num">16mm</div>
-          <div class="result-label">End-effector tracking error during base motion</div>
-        </div>
-        <div class="result-card">
-          <div class="result-num">&lt;1s</div>
-          <div class="result-label">Dynamic obstacle replanning time</div>
-        </div>
-        <div class="result-card">
-          <div class="result-num">5Hz</div>
-          <div class="result-label">Voxel map update rate</div>
-        </div>
+        <div class="result-card"><div class="result-num">12mm</div><div class="result-label">Odometry accuracy over 10 loops</div></div>
+        <div class="result-card"><div class="result-num">16mm</div><div class="result-label">End-effector tracking error during base motion</div></div>
+        <div class="result-card"><div class="result-num">&lt;1s</div><div class="result-label">Dynamic obstacle replanning time</div></div>
+        <div class="result-card"><div class="result-num">5Hz</div><div class="result-label">Voxel map update rate</div></div>
       </div>
     </div>
 
-    <!-- SYSTEM ARCHITECTURE -->
     <div class="section">
       <h2>System Architecture</h2>
       <p>The full navigation pipeline runs in four sequential stages — from raw sensor data to motor commands — all operating concurrently in a multi-threaded pipeline on Jetson/NUC hardware.</p>
-
       <div class="pipeline">
         <div class="pipeline-step">
           <div class="pipeline-label">Stage 1 — State Estimation</div>
           <div class="pipeline-desc">
-            <h4>VINS-Mono Visual-Inertial SLAM</h4>
-            <p>VINS-Mono estimates robot pose using the ZED 2i stereo camera and ZED-SDK for odometry and loop closure. Combines visual features with IMU measurements for accurate 6-DOF pose estimation robust to fast motion. ZED-SDK provides high-quality stereo depth and odometry directly from the camera hardware.</p>
+            <h4>ZED SDK Visual-Inertial Odometry</h4>
+            <p>The ZED 2i stereo camera runs the ZED SDK's built-in visual-inertial odometry for 6-DOF pose estimation. The SDK fuses stereo visual features with the camera's onboard IMU, and performs loop closure detection to correct accumulated drift. Hardware-accelerated depth computation runs directly on the ZED 2i, offloading processing from the Jetson.</p>
           </div>
         </div>
         <div class="pipeline-step">
@@ -189,7 +158,7 @@
           <div class="pipeline-label">Stage 3 — Path Planning</div>
           <div class="pipeline-desc">
             <h4>Weighted A* + Dynamic Replanning</h4>
-            <p>A weighted A* planner generates collision-free paths through the global cost map. When a novel obstacle is detected (e.g., a walking human), the voxel occupancy is updated and a replan is triggered — producing a new collision-free path within one second. The planner uses both global cost map and live local cost map for reactive replanning.</p>
+            <p>A weighted A* planner generates collision-free paths through the global cost map. When a novel obstacle is detected (e.g., a walking human), the voxel occupancy is updated and a replan is triggered — producing a new collision-free path within one second. The planner uses both the global cost map and a live local cost map for reactive replanning.</p>
           </div>
         </div>
         <div class="pipeline-step">
@@ -202,17 +171,16 @@
       </div>
     </div>
 
-    <!-- HARDWARE -->
     <div class="section">
       <h2>Hardware</h2>
       <div class="arch-grid">
         <div class="arch-card">
           <h4>ZED 2i Stereo Camera</h4>
-          <p>Primary sensor for the entire navigation stack. Provides RGB, stereo depth, and IMU data. ZED-SDK handles hardware-accelerated depth computation, odometry, and loop closure detection onboard.</p>
+          <p>Primary sensor for the entire navigation stack. Provides RGB, stereo depth, and IMU data. The ZED SDK handles hardware-accelerated depth computation, visual-inertial odometry, and loop closure detection onboard.</p>
         </div>
         <div class="arch-card">
           <h4>Jetson / NUC Compute</h4>
-          <p>Multi-threaded pipeline runs all navigation modules concurrently — SLAM, mapping, planning, and control — on the onboard Jetson or NUC platform with real-time performance requirements.</p>
+          <p>Multi-threaded pipeline runs all navigation modules concurrently — odometry, mapping, planning, and control — on the onboard Jetson or NUC platform with real-time performance requirements.</p>
         </div>
         <div class="arch-card">
           <h4>Omnidirectional Swerve Base</h4>
@@ -224,7 +192,7 @@
         </div>
         <div class="arch-card">
           <h4>Rerun Visualization</h4>
-          <p>Live 3D visualization of the voxel map, robot pose, planned path, and sensor data during operation. Essential for real-time debugging, tuning the planner, and verifying SLAM accuracy.</p>
+          <p>Live 3D visualization of the voxel map, robot pose, planned path, and sensor data during operation. Essential for real-time debugging, tuning the planner, and verifying odometry accuracy.</p>
         </div>
         <div class="arch-card">
           <h4>Viser Visualization</h4>
@@ -233,7 +201,6 @@
       </div>
     </div>
 
-    <!-- DEMOS -->
     <div class="section">
       <h2>Validation Demos</h2>
       <div class="two-col">
@@ -243,8 +210,8 @@
             <li>YOR marked a reference point on paper and returned to mark it once per loop</li>
             <li>Robot traversed the full environment between each mark</li>
             <li>After 10 loops: return marks within a 12mm radius of the initial mark</li>
+            <li>Validates both odometry accuracy and loop-closure performance of the ZED SDK</li>
             <li>12mm is well within the 50mm positional accuracy spec of the pipeline</li>
-            <li>Validates both odometry accuracy and loop-closure performance</li>
           </ul>
         </div>
         <div class="info-card">
@@ -253,12 +220,11 @@
             <li>YOR held a ball in its gripper while the mobile base executed a lateral translation</li>
             <li>Arm controller compensates for base movement in real time</li>
             <li>End-effector deviation: 16mm — minimal tracking error under base motion</li>
-            <li>Demonstrates tight coupling between SLAM pose estimation and arm control</li>
+            <li>Demonstrates tight coupling between ZED SDK pose estimation and arm control</li>
             <li>Critical for mobile manipulation tasks requiring simultaneous navigation and manipulation</li>
           </ul>
         </div>
       </div>
-
       <div class="two-col" style="margin-top:2px">
         <div class="info-card">
           <h4>Dynamic Obstacle Avoidance</h4>
@@ -283,7 +249,6 @@
       </div>
     </div>
 
-    <!-- PUBLICATION -->
     <div class="section">
       <h2>Publication</h2>
       <div class="pub-banner">
@@ -295,19 +260,17 @@
       </div>
     </div>
 
-    <!-- WHAT I LEARNED -->
     <div class="section">
       <h2>What I Learned</h2>
       <ul>
-        <li>Visual-inertial SLAM is significantly more robust than visual-only SLAM for fast-moving platforms — IMU fusion handles motion blur and rapid rotations that break feature tracking</li>
+        <li>The ZED SDK's built-in VIO is highly capable for indoor navigation — loop closure detection is robust, but accuracy degrades in textureless or symmetric environments where visual features are ambiguous</li>
         <li>Voxel map update rate (5Hz) is a critical tradeoff — faster updates improve obstacle detection but increase compute load; 5Hz was the right balance for the Jetson hardware</li>
         <li>Pure Pursuit lookahead distance has an outsized effect on path smoothness vs. tracking accuracy — too short causes oscillation, too long causes corner-cutting</li>
-        <li>Building production-grade multi-threaded robotics pipelines in Python requires careful thread management — shared state between SLAM, planning, and control modules needs explicit synchronization</li>
-        <li>Real-time visualization with Rerun is invaluable for debugging sensor data — finding SLAM drift issues that weren't visible in position logs but were immediately obvious in 3D visualization</li>
+        <li>Building production-grade multi-threaded robotics pipelines in Python requires careful thread management — shared state between odometry, planning, and control modules needs explicit synchronization</li>
+        <li>Real-time visualization with Rerun is invaluable for debugging sensor data — finding odometry drift issues that weren't visible in position logs but were immediately obvious in 3D visualization</li>
         <li>Whole-body coordination (nav + arm) requires much tighter pose estimation than navigation alone — the 12mm odometry accuracy was sufficient for navigation but borderline for manipulation precision</li>
       </ul>
     </div>
-
   </div>
 
   <footer>
