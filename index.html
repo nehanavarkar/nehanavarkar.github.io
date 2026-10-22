@@ -146,8 +146,8 @@
     <p class="hero-tagline">I build autonomous navigation systems for real robots — SLAM, planning, and robot learning on physical hardware.</p>
     <div class="hero-meta">
       <span>MS Robotics · NYU, May 2026</span>
-      <span>Research · CILVR Lab</span>
-      <span>Published · arXiv:2602.11150</span>
+      <span>Research · ASAS Labs</span>
+      <span>Preprints · arXiv:2610.16223 · 2602.11150</span>
     </div>
     <div class="hero-cta">
       <a href="assets/Neha Navarkar.pdf" class="btn-primary">Download CV</a>
@@ -169,11 +169,12 @@
     <div class="section-header reveal"><span class="section-num">01</span><h2>About</h2></div>
     <div class="about-grid">
       <div class="about-text reveal">
-        <p>I'm a <strong>Robotics and Mechatronics Engineering MS student at NYU</strong>, working as a Research Assistant at the Generalizable Robotics &amp; AI Lab (CILVR). My focus is building navigation and perception systems that actually work in the real world — not just in simulation.</p>
-        <p>My main project is the <strong>YOR mobile manipulator</strong>: an open-source, sub-$10K platform for mobile manipulation research. Co-developed its entire navigation stack — from ZED SDK visual-inertial odometry and voxel mapping to path planning and pure-pursuit control — validated to 12mm odometry accuracy in live indoor environments.</p>
+        <p>I'm a robotics engineer with an <strong>MS in Robotics and Mechatronics Engineering from NYU</strong> (May 2026). My focus is building navigation, perception and control systems that actually work in the real world — not just in simulation.</p>
+        <p>Now at <strong>ASAS Labs</strong>, I work on safe control of a self-balancing wheel robot (arXiv:2610.16223), and I recently built a multi-person tracking pipeline as a computer vision contractor.</p>
+        <p>At NYU's CILVR Lab, I worked on the <strong>YOR mobile manipulator</strong>: an open-source, sub-$10K platform for mobile manipulation research. I co-developed its entire navigation stack — from ZED SDK visual-inertial odometry and voxel mapping to path planning and pure-pursuit control — validated to 12mm odometry accuracy in live indoor environments.</p>
         <div class="highlight-box">arXiv:2602.11150 · YOR: Your Own Mobile Manipulator<br>Contributing author · Feb 2026</div>
         <p>Before NYU, I was a Graduate Apprentice at <strong>Bosch Chassis Systems</strong>, where I won 1st place in Bosch's MDP Global Championship for a sensor-fusion analytics pipeline.</p>
-        <p>I'm actively looking for <strong>full-time roles</strong> in robotics software engineering, autonomy, or robot learning. Available May 2026.</p>
+        <p>I'm actively looking for <strong>full-time roles</strong> in robotics software engineering, autonomy, or robot learning. Available now.</p>
       </div>
       <div class="skills-cloud reveal">
         <div>
@@ -217,7 +218,41 @@
     <div class="timeline">
       <div class="timeline-item reveal">
         <div>
-          <div class="timeline-date">May 2025 — Present</div>
+          <div class="timeline-date">Oct 2026 — Present</div>
+          <div class="timeline-company">Confidential client</div>
+        </div>
+        <div>
+          <div class="timeline-title">Computer Vision Contractor — Pipeline Development</div>
+          <div class="timeline-body">
+            <ul>
+              <li>Building an end-to-end video pipeline for multi-person detection and tracking, with client-defined labels linked to each tracked person.</li>
+              <li>Mapping tracked people into spatial coordinates with zones and points of interest, and producing structured outputs for analysis.</li>
+              <li>Documenting known limitations and handing off code and documentation the client can keep using.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div>
+          <div class="timeline-date">2026 — Present</div>
+          <div class="timeline-company">ASAS Labs · NYU Tandon &amp; CCNY</div>
+        </div>
+        <div>
+          <div class="timeline-title">Research Assistant — Agile Safe Autonomous Systems</div>
+          <div class="timeline-body">
+            <ul>
+              <li>Safe control of a one-wheel balancing robot augmented with a lead-screw weight shift and a reaction wheel for yaw, where each turning pulse only engages if it beats static friction at the tire.</li>
+              <li>Wrote ESP32-S3 C++ firmware that commands an ODrive FOC controller over CAN; removed control-loop jitter caused by blocking serial I/O.</li>
+              <li>Identified actuator dynamics from step responses with least squares and built a nonlinear MPC with actuator slew and travel limits.</li>
+              <li>Built overhead-camera AprilTag localization (Orbbec Femto Bolt) and diagnosed a mirrored heading-frame error and 180° pose ambiguity.</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2610.16223" class="timeline-pub" target="_blank">arXiv:2610.16223 · Event-Driven Safe Control of a Black-Box Balancing Wheel ↗</a>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div>
+          <div class="timeline-date">May 2025 — May 2026</div>
           <div class="timeline-company">NYU CILVR Lab</div>
         </div>
         <div>
@@ -234,7 +269,7 @@
       </div>
       <div class="timeline-item reveal">
         <div>
-          <div class="timeline-date">Jan 2025 — Present</div>
+          <div class="timeline-date">Jan 2025 — May 2026</div>
           <div class="timeline-company">New York University</div>
         </div>
         <div>
@@ -277,22 +312,29 @@
         <div class="project-desc">Full autonomous navigation pipeline for the YOR mobile manipulator — ZED SDK visual-inertial odometry, real-time voxel mapping, weighted A* planning, and pure-pursuit control. Dynamic obstacle replanning in under 1 second.</div>
         <div class="project-tags"><span class="tag">ZED SDK VIO</span><span class="tag">ZED 2i</span><span class="tag">Python</span><span class="tag">Jetson</span></div>
       </a>
+      <a href="projects/xwheel.html" class="project-card reveal">
+        <div class="project-num">Project 02 · Research · ASAS Labs</div>
+        <div class="project-title">X-Wheel: Safe Control of a Balancing Wheel</div>
+        <div class="project-metric">Friction-gated turning modeled from a 24-pulse torque sweep</div>
+        <div class="project-desc">Turned a closed, self-balancing one-wheel robot into a steerable platform with a lead-screw weight shift and a reaction wheel. Wrote ESP32-S3 C++ firmware over CAN to an ODrive, identified actuator dynamics, and built overhead-camera AprilTag localization for experiments. Second author on the paper.</div>
+        <div class="project-tags"><span class="tag">C++</span><span class="tag">ESP32-S3</span><span class="tag">CAN / ODrive</span><span class="tag">System ID</span><span class="tag">MPC</span><span class="tag">AprilTag</span></div>
+      </a>
       <a href="projects/go2.html" class="project-card reveal">
-        <div class="project-num">Project 02 · RL · ROB-GY 6323</div>
+        <div class="project-num">Project 03 · RL · ROB-GY 6323</div>
         <div class="project-title">Go2 RL Locomotion</div>
         <div class="project-metric">Sim-to-real with per-episode friction randomization</div>
         <div class="project-desc">Trained a Unitree Go2 quadruped in Isaac Lab to track commanded velocity — torque-based PD control, gait-phase clock inputs, multi-term reward shaping, and actuator friction randomization for sim-to-real robustness.</div>
         <div class="project-tags"><span class="tag">Isaac Lab</span><span class="tag">PPO</span><span class="tag">PyTorch</span><span class="tag">Unitree Go2</span></div>
       </a>
       <a href="projects/cpr.html" class="project-card reveal">
-        <div class="project-num">Project 03 · Hardware</div>
+        <div class="project-num">Project 04 · Hardware</div>
         <div class="project-title">CPR Training Machine</div>
         <div class="project-metric">Compression depth accuracy within 5% of AHA target</div>
         <div class="project-desc">Portable automated CPR device with slider-crank mechanism and FOC torque feedback. Full stack: C/Python with ZeroMQ IPC, Kivy touchscreen GUI, OpenCV patient placement, and spontaneous breathing detection via current sensing.</div>
         <div class="project-tags"><span class="tag">Raspberry Pi 5</span><span class="tag">FOC</span><span class="tag">AK60-6</span><span class="tag">OpenCV</span></div>
       </a>
-      <a href="projects/homing.html" class="project-card reveal">
-        <div class="project-num">Project 04 · Embedded</div>
+      <a href="projects/homing.html" class="project-card reveal" style="grid-column: 1 / -1;">
+        <div class="project-num">Project 05 · Embedded</div>
         <div class="project-title">Autonomous Homing Robot</div>
         <div class="project-metric">~95% docking success across multi-room environments</div>
         <div class="project-desc">Self-docking mobile robot with Qi wireless charging, ultrasonic homing (3m range), and IR line following. Tested across multiple room configurations with autonomous return-to-dock behavior.</div>
@@ -306,6 +348,15 @@
   <section>
     <div class="section-header reveal"><span class="section-num">04</span><h2>Research</h2></div>
     <div class="paper-card reveal">
+      <div style="flex-shrink:0;"><div class="paper-badge">arXiv · Oct 2026</div></div>
+      <div>
+        <div class="paper-title">Event-Driven Safe Control of a Black-Box Balancing Wheel with Friction-Gated Actuation</div>
+        <div class="paper-authors">Kanishka Harwani, <strong>Neha Navarkar</strong>, Aliasghar Arab, Farshad Khorrami</div>
+        <div class="paper-desc">A commercial self-balancing wheel augmented with a lead-screw weight shift and a reaction wheel. Turning pulses only engage when they overcome static friction, so an event-triggered supervisor schedules pulses, brakes when the predicted stopping path would leave the safe region, and updates its friction estimate online.</div>
+        <a href="https://arxiv.org/abs/2610.16223" class="paper-link" target="_blank">arXiv:2610.16223 → View Paper</a>
+      </div>
+    </div>
+    <div class="paper-card reveal" style="margin-top:1.5rem;">
       <div style="flex-shrink:0;"><div class="paper-badge">arXiv · Feb 2026</div></div>
       <div>
         <div class="paper-title">YOR: Your Own Mobile Manipulator for Generalizable Robotics</div>
@@ -348,7 +399,7 @@
     <div class="contact-grid">
       <div class="reveal">
         <div class="contact-tagline">Building robots that<br><em>actually work.</em></div>
-        <p class="contact-body">I'm actively looking for full-time roles starting May 2026. If you're working on hard robotics problems, I'd love to hear from you.</p>
+        <p class="contact-body">I'm actively looking for full-time roles and can start right away. If you're working on hard robotics problems, I'd love to hear from you.</p>
         <div class="open-to">
           Open to:
           <span class="open-to-pill">Robotics Software Eng.</span>
