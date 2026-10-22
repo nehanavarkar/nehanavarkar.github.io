@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X-Wheel: Safe Control of a Balancing Wheel — Neha Navarkar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #F7F5F0; --ink: #1A1814; --muted: #7A7570; --accent: #C4541A; --accent2: #2A4A3E; --line: #D8D4CC; --card-bg: #FFFFFF; --serif: 'DM Serif Display', Georgia, serif; --mono: 'DM Mono', monospace; --sans: 'DM Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.7; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(247,245,240,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    .nav-logo { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); text-decoration: none; }
+    .nav-back { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .hero { padding: 10rem 4rem 5rem; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: end; }
+    .project-label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .project-title { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .project-summary { font-size: 1.05rem; color: var(--muted); font-weight: 300; max-width: 520px; }
+    .project-meta { display: flex; flex-direction: column; gap: 1.5rem; }
+    .meta-item label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.35rem; }
+    .meta-item p { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; padding: 0.25rem 0.65rem; border: 1px solid var(--line); color: var(--muted); border-radius: 2px; }
+    .content { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; }
+    .section { margin-bottom: 4rem; }
+    .section h2 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .section h3 { font-size: 1rem; font-weight: 600; color: var(--ink); margin: 2rem 0 0.75rem; }
+    .section p { color: var(--muted); font-weight: 300; margin-bottom: 1rem; max-width: 680px; }
+    .section ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; max-width: 680px; }
+    .section ul li { display: flex; gap: 1rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+    .section ul li::before { content: '→'; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+    .video-embed { background: var(--ink); border-radius: 4px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
+    .video-caption { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 2rem; }
+    .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .arch-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; }
+    .arch-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .arch-card p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .pipeline { display: flex; flex-direction: column; gap: 2px; margin-top: 1.5rem; }
+    .pipeline-step { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; background: var(--card-bg); border: 1px solid var(--line); padding: 1.5rem; align-items: start; }
+    .pipeline-label { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; padding-top: 0.1rem; }
+    .pipeline-desc h4 { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem; }
+    .pipeline-desc p { font-size: 0.85rem; color: var(--muted); font-weight: 300; margin: 0; }
+    .result-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 1.5rem; }
+    .result-card { background: var(--accent2); color: #fff; padding: 1.75rem; text-align: center; }
+    .result-num { font-family: var(--serif); font-size: 2rem; line-height: 1; margin-bottom: 0.25rem; }
+    .result-label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 1.5rem; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--line); padding: 1.75rem; }
+    .info-card h4 { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .info-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .info-card ul li { display: flex; gap: 0.75rem; font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+    .info-card ul li::before { content: '·'; color: var(--accent); }
+    .pub-banner { background: var(--accent2); color: #fff; padding: 2.5rem 3rem; display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center; margin-top: 1.5rem; }
+    .pub-banner h3 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem; color: #fff; }
+    .pub-banner p { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.6); margin: 0; }
+    .pub-link { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,0.3); padding: 0.75rem 1.25rem; white-space: nowrap; transition: all 0.2s; }
+    .pub-link:hover { background: rgba(255,255,255,0.1); }
+    code { font-family: var(--mono); font-size: 0.82rem; background: var(--line); padding: 0.1rem 0.4rem; border-radius: 2px; color: var(--ink); }
+    footer { padding: 2rem 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; }
+    footer p { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.4rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: all 0.2s; }
+    .btn-primary { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+    .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+    .btn-outline:hover { border-color: var(--ink); }
+    .btns { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; } .hero { grid-template-columns: 1fr; padding: 8rem 1.5rem 3rem; gap: 2rem; }
+      .content { padding: 3rem 1.5rem; } .arch-grid, .result-grid, .two-col { grid-template-columns: 1fr; }
+      .pipeline-step { grid-template-columns: 1fr; gap: 0.5rem; }
+      .pub-banner { grid-template-columns: 1fr; gap: 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="../index.html" class="nav-logo">Neha Navarkar</a>
+    <a href="../index.html#projects" class="nav-back">← Back to Projects</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <p class="project-label">Project 02 · Research · ASAS Labs · 2026 – Present</p>
+      <h1 class="project-title">X-Wheel:<br/>Safe Control of a<br/>Balancing Wheel</h1>
+      <p class="project-summary">A commercial self-balancing one-wheel robot is a closed system: it keeps itself upright, and you can't change its controller. We made it steerable by adding a lead-screw weight shift for forward and backward motion and a reaction wheel for turning, then built a safety supervisor around how those actuators actually behave. Second author on the paper (arXiv:2610.16223).</p>
+      <div class="btns">
+        <a href="https://arxiv.org/abs/2610.16223" target="_blank" class="btn btn-primary">View Paper</a>
+      </div>
+    </div>
+    <div class="project-meta">
+      <div class="meta-item"><label>Lab</label><p>ASAS Labs — Agile Safe Autonomous Systems (NYU Tandon &amp; CCNY)</p></div>
+      <div class="meta-item"><label>Platform</label><p>Self-balancing one-wheel robot with weight shift and reaction wheel</p></div>
+      <div class="meta-item">
+        <label>Stack</label>
+        <div class="tags">
+          <span class="tag">C++</span><span class="tag">Python</span>
+          <span class="tag">ESP32-S3</span><span class="tag">CAN</span>
+          <span class="tag">ODrive FOC</span><span class="tag">System ID</span>
+          <span class="tag">Nonlinear MPC</span><span class="tag">AprilTag</span>
+          <span class="tag">Orbbec Femto Bolt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Add the demo video here when it is ready (save it as assets/xwheel.mp4):
+    <div class="section">
+      <h2>Demo</h2>
+      <div class="video-embed">
+        <video controls style="width:100%;height:100%">
+          <source src="../assets/xwheel.mp4" type="video/mp4">
+        </video>
+      </div>
+      <p class="video-caption">X-Wheel hardware demonstration</p>
+    </div>
+    -->
+
+    <div class="section">
+      <h2>Context</h2>
+      <p>Commercial balancing wheels stay upright through an internal controller and are normally steered by a rider leaning. Treating that controller as a black box, the question was how to drive the wheel autonomously and safely using only actuators added on top.</p>
+      <p>Forward and backward motion comes from a lead screw that shifts weight, which the robot's own balance controller turns into motion. Turning comes from a reaction wheel. The reaction wheel holds limited momentum, so turns happen as a series of short torque pulses, and whether a pulse actually rotates the body depends on static friction at the tire.</p>
+      <p>That makes turning uncertain by nature. The work models that uncertainty from real torque sweeps and builds a supervisor that stays safe in spite of it.</p>
+    </div>
+
+    <div class="section">
+      <h2>Key Results</h2>
+      <div class="result-grid">
+        <div class="result-card"><div class="result-num">24</div><div class="result-label">Torque pulses in the hardware sweep</div></div>
+        <div class="result-card"><div class="result-num">0.54</div><div class="result-label">Pulse engagement probability at max torque</div></div>
+        <div class="result-card"><div class="result-num">4×</div><div class="result-label">Stopping distance vs. direct-force model</div></div>
+        <div class="result-card"><div class="result-num">500</div><div class="result-label">Simulated plants for evaluation</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>System Architecture</h2>
+      <p>The system runs from embedded actuation up to a supervisor that decides when to pulse, when to brake, and how wide its safety margins should be.</p>
+      <div class="pipeline">
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 1 — Actuation</div>
+          <div class="pipeline-desc">
+            <h4>ESP32-S3 Firmware over CAN</h4>
+            <p>C++ firmware on an ESP32-S3 commands an ODrive FOC motor controller over CAN for the reaction wheel and weight-shift actuators. Blocking serial I/O was causing control-loop jitter, and removing it made actuation timing consistent.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 2 — Localization</div>
+          <div class="pipeline-desc">
+            <h4>Overhead-Camera AprilTag Tracking</h4>
+            <p>An overhead Orbbec Femto Bolt tracks AprilTags on the robot to give position and heading during experiments. Getting it right meant fixing a mirrored heading frame and handling a 180° pose ambiguity.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 3 — Modeling</div>
+          <div class="pipeline-desc">
+            <h4>System ID and Friction-Gated Turning</h4>
+            <p>Actuator dynamics were identified from step responses with least squares. For turning, a two-part model estimates the probability that a pulse rotates the body and the rotation it produces. The weight shift is modeled as a rate-limited input, which predicts much longer stopping distances than treating it as a direct force.</p>
+          </div>
+        </div>
+        <div class="pipeline-step">
+          <div class="pipeline-label">Stage 4 — Control</div>
+          <div class="pipeline-desc">
+            <h4>Nonlinear MPC and Event-Triggered Supervisor</h4>
+            <p>A nonlinear MPC respects actuator slew and travel limits. The supervisor schedules turning pulses, brakes when the predicted stopping path would leave the safe region, widens margins to cover model uncertainty, and updates its friction estimate online.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Hardware</h2>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <h4>Balancing Wheel</h4>
+          <p>A commercial self-balancing one-wheel robot whose internal balance controller is treated as a black box.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Lead-Screw Weight Shift</h4>
+          <p>Moves mass forward or back so the wheel's own balance controller drives it longitudinally.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Reaction Wheel</h4>
+          <p>Produces yaw torque in short pulses. Limited stored momentum is why turning is pulse-based.</p>
+        </div>
+        <div class="arch-card">
+          <h4>ESP32-S3 + ODrive</h4>
+          <p>Embedded controller running C++ firmware, talking to an ODrive FOC motor driver over CAN.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Orbbec Femto Bolt</h4>
+          <p>Overhead depth camera used with AprilTags to track the robot's position and heading during experiments.</p>
+        </div>
+        <div class="arch-card">
+          <h4>Torque Sweeps</h4>
+          <p>Repeated pulses across torque levels on one surface, used to fit the friction-gated turning model.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>My Role</h2>
+      <div class="two-col">
+        <div class="info-card">
+          <h4>What I Built</h4>
+          <ul>
+            <li>ESP32-S3 C++ firmware commanding an ODrive over CAN</li>
+            <li>Fix for control-loop jitter from blocking serial I/O</li>
+            <li>Step-response system identification with least squares</li>
+            <li>Nonlinear MPC with actuator slew and travel limits</li>
+            <li>Overhead-camera AprilTag localization</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>Debugging Notes</h4>
+          <ul>
+            <li>Jitter in the control loop traced to blocking serial reads and writes</li>
+            <li>Heading looked wrong because the camera frame was mirrored</li>
+            <li>AprilTag pose could flip by 180°, so heading needed disambiguation</li>
+            <li>Turning is probabilistic: the same pulse may or may not rotate the body</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Publication</h2>
+      <div class="pub-banner">
+        <div>
+          <h3>Event-Driven Safe Control of a Black-Box Balancing Wheel with Friction-Gated Actuation</h3>
+          <p>Kanishka Harwani, <strong>Neha Navarkar</strong>, Aliasghar Arab, Farshad Khorrami · arXiv:2610.16223 · October 2026</p>
+        </div>
+        <a href="https://arxiv.org/abs/2610.16223" target="_blank" class="pub-link">View Paper →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Neha Navarkar</p>
+    <p><a href="../index.html" style="color:var(--muted);text-decoration:none;">nehanavarkar.github.io</a></p>
+  </footer>
+</body>
+</html>
